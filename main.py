@@ -11,12 +11,18 @@ pat = re.compile(r'([A-Z][^\.!?]*[\.!?])', re.M)
 sentencelist = pat.findall(rawtext)
 firstwordlist = []
 for index, firstword in enumerate(sentencelist):
-	firstwordindex = int(index)
-	firstword = sentencelist[firstwordindex].split(' ')[0]
+	sentenceindex = int(index)
+	firstword = sentencelist[sentenceindex].split(' ')[0]
 	firstwordlist.append(firstword)
 rawtext = rawtext.replace(', ', ' , ')
 rawtext = rawtext.replace('. ', ' . ')
 rawtext = rawtext.replace('"', ' " ')
+sentencelist = pat.findall(rawtext)
+wordsinsentencelist = []
+for index, words in enumerate(sentencelist):
+	sentenceindex = int(index)
+	words = sentencelist[sentenceindex].split(' ')
+	wordsinsentencelist.append(words)
 wordlist = rawtext.split(' ')
 wordlist = list(filter(None, wordlist))
 wordlistdouble = [[], []]
@@ -30,6 +36,8 @@ for index, word in enumerate(wordlist):
 rawdata.close()
 
 #firstwordlist = list of words that start sentencelist
+#sentencelist = list of all sentences
+#wordsinsentencelist = list of lists containing all of the words in each sentence
 #wordlist = list of all words
 #wordlistdouble = dual list of all words plus the words that follow them
 
