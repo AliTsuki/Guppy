@@ -9,8 +9,11 @@ rawtext = rawtext.replace('\r', ' ')
 rawtext = rawtext.replace('--', ' -- ')
 pat = re.compile(r'([A-Z][^\.!?]*[\.!?])', re.M)
 sentencelist = pat.findall(rawtext)
-for startingword in sentencelist:
-	#dfdfd
+firstwordlist = []
+for index, firstword in enumerate(sentencelist):
+	firstwordindex = int(index)
+	firstword = sentencelist[firstwordindex].split(' ')[0]
+	firstwordlist.append(firstword)
 rawtext = rawtext.replace(', ', ' , ')
 rawtext = rawtext.replace('. ', ' . ')
 rawtext = rawtext.replace('"', ' " ')
@@ -26,6 +29,9 @@ for index, word in enumerate(wordlist):
 #for wordlistdouble[0]
 rawdata.close()
 
+#firstwordlist = list of words that start sentencelist
+#wordlist = list of all words
+#wordlistdouble = dual list of all words plus the words that follow them
+
 #sample data source
 #http://www.gutenberg.org/cache/epub/61/pg61.txt
-a
