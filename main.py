@@ -1,6 +1,6 @@
 #import
-import re #for regex expression below
-from collections import Counter
+import re    #for regex expression below
+from collections import Counter    #import Counter from collections for Counter call below
 
 #main
 with open("text.txt") as rawData:    #Open text file and create a datastream
@@ -30,15 +30,19 @@ for index, words in enumerate(sentenceList):    #Enumerate through sentence list
 wordList = []    #Initialize list of all words
 wordList = rawText.split(' ')    #Create list of all words by splitting the entire text by spaces
 wordList = list(filter(None, wordList))    #Use filter to get rid of empty strings in the list
-nxt = iter(wordList)    #Set nxt as an iteration of word list
+lowercaseWordList = []
+for item in wordList:
+	lowercaseWordList.append(item.lower())
+nxt = iter(lowercaseWordList)    #Set nxt as an iteration of word list
 next(nxt, None)    #Use next keyword to get next item in word list for below tuple
-unorderedWordDoubleListDict = (Counter(zip(wordList, nxt)).items())    #Create a dict using Counter that zips a tuple of wordlist and next item in wordlist with the number of times that tuple exists in the text
+unorderedWordDoubleListDict = (Counter(zip(lowercaseWordList, nxt)).items())    #Create a dict using Counter that zips a tuple of wordlist and next item in wordlist with the number of times that tuple exists in the text
 
 #sentenceList = List of all sentences
 #firstWordList = List of words that start sentencelist
 #sentenceListForWords = List of all sentences mutated for ease of extracting words
 #wordsInSentenceList = List of lists containing all of the words in each sentence
 #wordList = List of all words
+#lowercaseWordList = List of all words in all lowercase
 #unorderedWordDoubleListDict = Dict of all unique word pairs in a tuple plus the count of times that unique pair appears in the text
 
 #sample data source
