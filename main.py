@@ -30,12 +30,13 @@ for index, words in enumerate(sentenceList):    #Enumerate through sentence list
 wordList = []    #Initialize list of all words
 wordList = rawText.split(' ')    #Create list of all words by splitting the entire text by spaces
 wordList = list(filter(None, wordList))    #Use filter to get rid of empty strings in the list
-lowercaseWordList = []
-for item in wordList:
-	lowercaseWordList.append(item.lower())
+lowercaseWordList = []    #Initialize the lowercase word list
+for item in wordList:    #loop through the word list
+	lowercaseWordList.append(item.lower())    #append the lowercase version of the item in word list to the lowercase word list
 nxt = iter(lowercaseWordList)    #Set nxt as an iteration of word list
 next(nxt, None)    #Use next keyword to get next item in word list for below tuple
 unorderedWordDoubleListDict = (Counter(zip(lowercaseWordList, nxt)).items())    #Create a dict using Counter that zips a tuple of wordlist and next item in wordlist with the number of times that tuple exists in the text
+print(unorderedWordDoubleListDict)
 
 #sentenceList = List of all sentences
 #firstWordList = List of words that start sentencelist
