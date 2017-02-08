@@ -9,7 +9,7 @@ rawData.close()  # Close the data stream
 rawText = rawText.replace('\n', ' ')  # Remove newline characters from text
 rawText = rawText.replace('\r', ' ')  # Remove newline characters from text
 rawText = rawText.replace('--', ' -- ')  # Break up blah--blah words so it can read 2 separate words blah -- blah
-pat = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Regex pattern for grabbing everthing before a sentence ending punctuation
+pat = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Regex pattern for grabbing everything before a sentence ending punctuation
 sentenceList = pat.findall(rawText)  # Apply regex pattern to string to create a list of all the sentences in the text
 firstWordList = []  # Initialize the list for the first word in each sentence
 for index, firstWord in enumerate(sentenceList):  # Enumerate through the sentence list
@@ -39,7 +39,7 @@ unorderedWordList = []  # Initialize the unordered word list that will contain b
 for key, value in unorderedWordDoubleDict:  # Loop through the unordered word double dict grabbing keys and values
     unorderedWordList.append(key)  # Append keys to unordered word list
     unorderedWordList.append(value)  # Append values to unordered word list
-containedUnorderedWordList = []  # Initialize the contained unorderded word list that will contain each word in the tuples and the integer counts
+containedUnorderedWordList = []  # Initialize the contained unordered word list that will contain each word in the tuples and the integer counts
 count = 0  # Initialize count to 0
 while count < len(unorderedWordList):  # Loop through count while it is less than the total length of the unordered word list
     wordTuple = unorderedWordList[count]  # Grab the tuple located at current count index
