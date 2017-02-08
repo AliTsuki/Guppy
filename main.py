@@ -52,8 +52,7 @@ while count < len(unorderedWordList):
 	containedUnorderedWordList.append(firstTupleWord)
 	containedUnorderedWordList.append(secondTupleWord)
 	containedUnorderedWordList.append(integerCount)
-	count = count + 3
-print(containedUnorderedWordList)
+	count = count + 2
 
 # sentenceList = List of all sentences
 # firstWordList = List of words that start sentencelist
