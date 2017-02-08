@@ -55,7 +55,10 @@ while count < len(unorderedWordList):    # Loop through count while it is less t
 	containedUnorderedWordList.append(integerCount)    # Append the integer
 	count = count + 2    # Jump the count ahead 2 spaces to next set of tuple and integer
 unorderedTupleList = []    # Initialize the list of unordered tuples that will contain the 2 words and integer count
-
+l = containedUnorderedWordList    # Set the list to be the contained unordered word list
+n = 3    # Set the size of the chunks to 3
+unorderedTupleList = [l[i:i + n] for i in range(0, len(l), n)]    # Break up the contained unordered word list into tuples of 3
+print(unorderedTupleList)
 
 # sentenceList = List of all sentences
 # firstWordList = List of words that start sentencelist
