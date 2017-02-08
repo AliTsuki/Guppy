@@ -21,6 +21,7 @@ rawText = rawText.replace(', ', ' , ')    # Break up punctuation so they are not
 rawText = rawText.replace('. ', ' . ')    # Break up punctuation so they are not considered part of words
 rawText = rawText.replace('"', ' " ')    # Break up punctuation so they are not considered part of words
 rawText = rawText.replace(':', ' : ')    # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('#', ' # ')    # Break up punctuation so they are not considered part of words
 sentenceListForWords = []    # Initialize sentence list for parsing words
 sentenceListForWords = pat.findall(rawText)    # Run the regex pattern again this time with the punctuation broken up by spaces
 wordsInSentenceList = []    # Initialize list for all of the words that appear in each sentence
@@ -36,23 +37,25 @@ for word in wordList:    # loop through the word list
 	lowercaseWordList.append(word.lower())    # append the lowercase version of the item in word list to the lowercase word list
 nxt = iter(lowercaseWordList)    # Set nxt as an iteration of word list
 next(nxt, None)    # Use next keyword to get next item in word list for below tuple
-unorderedWordDoubleListDict = {}
-unorderedWordDoubleListDict = (Counter(zip(lowercaseWordList, nxt)).items())    # Create a dict using Counter that zips a tuple of wordlist and next item in wordlist with the number of times that tuple exists in the text
-unorderedWordList = []
-for key, value in unorderedWordDoubleListDict:
-	unorderedWordList.append(key)
-	unorderedWordList.append(value)
-containedUnorderedWordList = []
-count = 0
-while count < len(unorderedWordList):
-	wordTuple = unorderedWordList[count]
-	firstTupleWord = wordTuple[0]
-	secondTupleWord = wordTuple[1]
-	integerCount = unorderedWordList[count+1]
-	containedUnorderedWordList.append(firstTupleWord)
-	containedUnorderedWordList.append(secondTupleWord)
-	containedUnorderedWordList.append(integerCount)
-	count = count + 2
+unorderedWordDoubleDict = {}    # Initialize a dict element for use below to contain a tuple of words and the count of that tuple in the text
+unorderedWordDoubleDict = (Counter(zip(lowercaseWordList, nxt)).items())    # Create a dict using Counter that zips a tuple of wordlist and next item in wordlist with the number of times that tuple exists in the text
+unorderedWordList = []    # Initialize the unordered word list that will contain both the keys and values in list format instead of dict format
+for key, value in unorderedWordDoubleDict:    # Loop through the unoreded word double dict grabbing keys and values
+	unorderedWordList.append(key)    # Append keys to unordered word list
+	unorderedWordList.append(value)    # Append values to unordered word list
+containedUnorderedWordList = []    # Initialize the contained unorderded word list that will contain each word in the tuples and the integer counts
+count = 0    # Initialize count to 0
+while count < len(unorderedWordList):    # Loop through count while it is less than the total length of the unordered word list
+	wordTuple = unorderedWordList[count]    # Grab the tuple located at current count index
+	firstTupleWord = wordTuple[0]    # Grab the first word of the grabbed tuple
+	secondTupleWord = wordTuple[1]    # Grab the second word of the grabbed tuple
+	integerCount = unorderedWordList[count+1]    # Grab the integer count of the grabbed tuple
+	containedUnorderedWordList.append(firstTupleWord)    # Append the first word
+	containedUnorderedWordList.append(secondTupleWord)    # Append the second word
+	containedUnorderedWordList.append(integerCount)    # Append the integer
+	count = count + 2    # Jump the count ahead 2 spaces to next set of tuple and integer
+unorderedTupleList = []    # Initialize the list of unordered tuples that will contain the 2 words and integer count
+
 
 # sentenceList = List of all sentences
 # firstWordList = List of words that start sentencelist
