@@ -5,6 +5,16 @@ from operator import itemgetter    # import itemgetter from operator for itemget
 import random    # import random for doing random functions below
 
 # main
+def weighted_choice(choices):    # Create a method for selecting an option randomly but including weighting
+	total = sum(weight for choice, weight in choices)    # Black magic
+	r = random.uniform(0, total)    # Black magic
+	upto = 0    # Black magic
+	for choice, weight in choices:    # Black magic
+		if upto + weight >= r:    # Black magic
+			return choice    # Black magic
+		upto += weight    # Black magic
+	assert False, "Fuck you"    # Black magic
+
 with open("text.txt") as rawData:  # Open text file and create a data stream
     rawText = rawData.read()  # Read through the stream and create a string containing the text
 rawData.close()  # Close the data stream
@@ -69,17 +79,12 @@ firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if 
 firstWordOfSentenceTuples = []    # Initialize first word of sentence tuples as an empty list
 for index in firstWordOfSentenceTupleIndexes:    # Loop through the indexes of those tuples
 	firstWordOfSentenceTuples.append(orderedTupleList[index])    # Append the actual tuples to first word of sentence tuples
+firstWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in firstWordOfSentenceTuples]
+nextWord = ''    # Initialize next word to empty string
+while nextWord != '.' or nextWord != '!' or nextWord != '?':
+	nextWord = weighted_choice(firstWordOfSentenceTuplesMinusFirstWord)
+print(nextWord)
 
-
-def weighted_choice(choices):    # Create a method for selecting an option randomly but including weighting
-	total = sum(weight for choice, weight in choices)    # Black magic
-	r = random.uniform(0, total)    # Black magic
-	upto = 0    # Black magic
-	for choice, weight in choices:    # Black magic
-		if upto + weight >= r:    # Black magic
-			return choice    # Black magic
-		upto += weight    # Black magic
-	assert False, "Fuck you"    # Black magic
 
 # sentenceList = List of all sentences
 # firstWordList = List of words that start sentence list
