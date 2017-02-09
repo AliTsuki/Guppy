@@ -86,14 +86,14 @@ sentence += firstWordOfSentence
 sentence += ' '
 nextWord = weighted_choice(firstWordOfSentenceTuplesMinusFirstWord)
 while nextWord != '.' or nextWord != '!' or nextWord != '?':
-	nextWordOfSentenceTuples = []    # Initialize next word of sentence tuples as an empty list
 	nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if y[0] == nextWord]    # Get the indexes of all of the tuples that contain the first word as the first word in the tuple 
+	nextWordOfSentenceTuples = []    # Initialize next word of sentence tuples as an empty list
 	for index in nextWordOfSentenceTupleIndexes:    # Loop through the indexes of those tuples
 		nextWordOfSentenceTuples.append(orderedTupleList[index])    # Append the actual tuples to first word of sentence tuples
-		nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]    # Take out the first word so it is a list of tuples of words that follow the previous word plus their integer weight
-		nextWord = weighted_choice(nextWordOfSentenceTuplesMinusFirstWord)
-		sentence += nextWord
-		sentence += ' '
+	nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]    # Take out the first word so it is a list of tuples of words that follow the previous word plus their integer weight
+	nextWord = weighted_choice(nextWordOfSentenceTuplesMinusFirstWord)
+	sentence += nextWord
+	sentence += ' '
 print(sentence)
 
 # sentenceList = List of all sentences
