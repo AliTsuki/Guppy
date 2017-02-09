@@ -2,6 +2,7 @@
 import re  # for regex expression below
 from collections import Counter  # import Counter from collections for Counter call below, for counting...
 from operator import itemgetter    # import itemgetter from operator for itemgetter in sorted operation below
+import random    # import random for doing random functions below
 
 # main
 with open("text.txt") as rawData:  # Open text file and create a data stream
@@ -10,6 +11,16 @@ rawData.close()  # Close the data stream
 rawText = rawText.replace('\n', ' ')  # Remove newline characters from text
 rawText = rawText.replace('\r', ' ')  # Remove newline characters from text
 rawText = rawText.replace('--', ' -- ')  # Break up blah--blah words so it can read 2 separate words blah -- blah
+rawText = rawText.replace(',', ' , ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace(';', ' ; ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('.', ' . ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('!', ' ! ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('?', ' ? ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('"', ' " ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace(':', ' : ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('#', ' # ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('(', ' ( ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace(')', ' ) ')  # Break up punctuation so they are not considered part of words
 pat = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Regex pattern for grabbing everything before a sentence ending punctuation
 sentenceList = pat.findall(rawText)  # Apply regex pattern to string to create a list of all the sentences in the text
 firstWordList = []  # Initialize the list for the first word in each sentence
@@ -17,13 +28,6 @@ for index, firstWord in enumerate(sentenceList):  # Enumerate through the senten
     sentenceIndex = int(index)  # Get the index for below operation
     firstWord = sentenceList[sentenceIndex].split(' ')[0]  # Use split to only grab the first word in each sentence
     firstWordList.append(firstWord)  # Append each sentence starting word to first word list
-rawText = rawText.replace(', ', ' , ')  # Break up punctuation so they are not considered part of words
-rawText = rawText.replace('. ', ' . ')  # Break up punctuation so they are not considered part of words
-rawText = rawText.replace('! ', ' ! ')  # Break up punctuation so they are not considered part of words
-rawText = rawText.replace('? ', ' ? ')  # Break up punctuation so they are not considered part of words
-rawText = rawText.replace('"', ' " ')  # Break up punctuation so they are not considered part of words
-rawText = rawText.replace(':', ' : ')  # Break up punctuation so they are not considered part of words
-rawText = rawText.replace('#', ' # ')  # Break up punctuation so they are not considered part of words
 sentenceListForWords = pat.findall(rawText)  # Run the regex pattern again this time with the punctuation broken up by spaces
 wordsInSentenceList = []  # Initialize list for all of the words that appear in each sentence
 for index, words in enumerate(sentenceList):  # Enumerate through sentence list
@@ -57,7 +61,25 @@ l = containedUnorderedWordList  # Set the list to be the contained unordered wor
 n = 3  # Set the size of the chunks to 3
 unorderedTupleList = [l[i:i + n] for i in range(0, len(l), n)]  # Break up the l list into tuples of n length
 orderedTupleList = sorted(unorderedTupleList, key = itemgetter(0, 2), reverse=True)    # set ordered tuple list as unordered tuple list sorted first by first word, second by integer count, reverse so that integer goes high to low
-print(orderedTupleList)
+firstWordListIndexRandom = int(random.uniform(0, len(firstWordList)))    # Randomly select an index from 0 through the length of first word list
+firstWordOfSentence = ''    # Initialize first word of sentence as an empty string
+firstWordOfSentence = firstWordList[firstWordListIndexRandom]    # Set first word of sentence to the actual word at the random index from above
+firstWordOfSentenceForSearching = firstWordOfSentence.lower()    # Set first word of sentence for searching to lowercase to match the actual list we need to search
+firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if y[0] == firstWordOfSentenceForSearching]    # Get the indexes of all of the tuples that contain the first word as the first word in the tuple
+firstWordOfSentenceTuples = []    # Initialize first word of sentence tuples as an empty list
+for index in firstWordOfSentenceTupleIndexes:    # Loop through the indexes of those tuples
+	firstWordOfSentenceTuples.append(orderedTupleList[index])    # Append the actual tuples to first word of sentence tuples
+
+
+def weighted_choice(choices):    # Create a method for selecting an option randomly but including weighting
+	total = sum(weight for choice, weight in choices)    # Black magic
+	r = random.uniform(0, total)    # Black magic
+	upto = 0    # Black magic
+	for choice, weight in choices:    # Black magic
+		if upto + weight >= r:    # Black magic
+			return choice    # Black magic
+		upto += weight    # Black magic
+	assert False, "Fuck you"    # Black magic
 
 # sentenceList = List of all sentences
 # firstWordList = List of words that start sentence list
@@ -70,6 +92,8 @@ print(orderedTupleList)
 # containedUnorderedWordList = List of every word in the tuple order and the integer count in a single list without tuples
 # unorderedTupleList = List of tuples containing 3 parts, the first and second word and the integer count
 # orderedTupleList = List of the tuple triplets ordered first by first word and second by integer count
+# firstWordOfSentence = String containing the randomly selected first word of a sentence from first word List
+# firstWordOfSentenceTuples = List of tuples containing first word as the first word in the tuple
 
 # sample data source:
 # http://www.gutenberg.org/cache/epub/61/pg61.txt
