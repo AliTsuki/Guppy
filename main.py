@@ -1,6 +1,7 @@
 # import
 import re  # for regex expression below
-from collections import Counter  # import Counter from collections for Counter call below
+from collections import Counter  # import Counter from collections for Counter call below, for counting...
+from operator import itemgetter    # import itemgetter from operator for itemgetter in sorted operation below
 
 # main
 with open("text.txt") as rawData:  # Open text file and create a data stream
@@ -18,6 +19,8 @@ for index, firstWord in enumerate(sentenceList):  # Enumerate through the senten
     firstWordList.append(firstWord)  # Append each sentence starting word to first word list
 rawText = rawText.replace(', ', ' , ')  # Break up punctuation so they are not considered part of words
 rawText = rawText.replace('. ', ' . ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('! ', ' ! ')  # Break up punctuation so they are not considered part of words
+rawText = rawText.replace('? ', ' ? ')  # Break up punctuation so they are not considered part of words
 rawText = rawText.replace('"', ' " ')  # Break up punctuation so they are not considered part of words
 rawText = rawText.replace(':', ' : ')  # Break up punctuation so they are not considered part of words
 rawText = rawText.replace('#', ' # ')  # Break up punctuation so they are not considered part of words
@@ -52,8 +55,9 @@ while count < len(unorderedWordList):  # Loop through count while it is less tha
     count += 2  # Jump the count ahead 2 spaces to next set of tuple and integer
 l = containedUnorderedWordList  # Set the list to be the contained unordered word list
 n = 3  # Set the size of the chunks to 3
-unorderedTupleList = [l[i:i + n] for i in range(0, len(l), n)]  # Break up the contained unordered word list into tuples of 3
-print(unorderedTupleList)
+unorderedTupleList = [l[i:i + n] for i in range(0, len(l), n)]  # Break up the l list into tuples of n length
+orderedTupleList = sorted(unorderedTupleList, key = itemgetter(0, 2), reverse=True)    # set ordered tuple list as unordered tuple list sorted first by first word, second by integer count, reverse so that integer goes high to low
+print(orderedTupleList)
 
 # sentenceList = List of all sentences
 # firstWordList = List of words that start sentence list
@@ -62,6 +66,10 @@ print(unorderedTupleList)
 # wordList = List of all words
 # lowercaseWordList = List of all words in all lowercase
 # unorderedWordDoubleDict = Dict of all unique word pairs in a tuple plus the count of times that unique pair appears in the text
+# unorderedWordList = List of unordered word double dict, sorting works better on list not dict
+# containedUnorderedWordList = List of every word in the tuple order and the integer count in a single list without tuples
+# unorderedTupleList = List of tuples containing 3 parts, the first and second word and the integer count
+# orderedTupleList = List of the tuple triplets ordered first by first word and second by integer count
 
-# sample data source
+# sample data source:
 # http://www.gutenberg.org/cache/epub/61/pg61.txt
