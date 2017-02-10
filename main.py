@@ -68,10 +68,8 @@ def createSentence(database):
     rawText = rawText.replace(' v.', ' ')  # Break up non-words to separate them from words
     rawText = rawText.replace('  ', ' ')  # Break up non-words to separate them from words
     rawText = rawText.replace('   ', ' ')  # Break up non-words to separate them from words
-    pat = re.compile(r'([A-Z][^.!?]*[.!?])',
-                     re.M)  # Regex pattern for grabbing everything before a sentence ending punctuation mark
-    sentenceList = pat.findall(
-        rawText)  # Apply regex pattern to the string to create a list of all the sentences in the text
+    pat = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Regex pattern for grabbing everything before a sentence ending punctuation mark
+    sentenceList = pat.findall(rawText)  # Apply regex pattern to the string to create a list of all the sentences in the text
     firstWordList = []  # Initialize the list for the first word in each sentence
     for index, firstWord in enumerate(sentenceList):  # Enumerate through the sentenceList
         sentenceIndex = int(index)  # Get the index for below operation
@@ -80,27 +78,23 @@ def createSentence(database):
     wordsInSentenceList = []  # Initialize list for all of the words that appear in each sentence
     for index, words in enumerate(sentenceList):  # Enumerate through sentenceList
         sentenceIndex = int(index)  # Grab the index for below operation
-        words = sentenceList[sentenceIndex].split(
-            ' ')  # Split up the words in each sentence so we have a list that contains each word in each sentence
+        words = sentenceList[sentenceIndex].split(' ')  # Split up the words in each sentence so we have a list that contains each word in each sentence
         wordsInSentenceList.append(words)  # Append above described to the list
     wordList = rawText.split(' ')  # Create list of all words by splitting the entire text by spaces
     wordList = list(filter(None, wordList))  # Use filter to get rid of empty strings in the list
     lowercaseWordList = []  # Initialize the lowercaseWordList
     for word in wordList:  # Loop through the wordList
-        lowercaseWordList.append(
-            word.lower())  # Append the lowercase version of the item in word list to the lowercaseWordList
+        lowercaseWordList.append(word.lower())  # Append the lowercase version of the item in word list to the lowercaseWordList
     nxt = iter(lowercaseWordList)  # Set nxt as an iteration of wordList
     next(nxt, None)  # Use next keyword to get next item in wordList for below tuple
-    unorderedWordDoubleDict = (Counter(zip(lowercaseWordList,
-                                           nxt)).items())  # Create a dict using Counter that zips a tuple of wordList and next item in wordList with the number of times that tuple exists in the text
+    unorderedWordDoubleDict = (Counter(zip(lowercaseWordList, nxt)).items())  # Create a dict using Counter that zips a tuple of wordList and next item in wordList with the number of times that tuple exists in the text
     unorderedWordList = []  # Initialize the unorderedWordList that will contain both the keys and values in list format instead of dict format
     for key, value in unorderedWordDoubleDict:  # Loop through the unorderedWordDoubleDict grabbing keys and values
         unorderedWordList.append(key)  # Append keys to unorderedWordList
         unorderedWordList.append(value)  # Append values to unorderedWordList
     containedUnorderedWordList = []  # Initialize the containedUnorderedWordList that will contain each word in the tuples and the integer counts
     count = 0  # Initialize count to 0
-    while count < len(
-            unorderedWordList):  # Loop through count while it is less than the total length of the unorderedWordList
+    while count < len(unorderedWordList):  # Loop through count while it is less than the total length of the unorderedWordList
         wordTuple = unorderedWordList[count]  # Grab the tuple located at current count index
         firstTupleWord = wordTuple[0]  # Grab the first word of the grabbed tuple
         secondTupleWord = wordTuple[1]  # Grab the second word of the grabbed tuple
@@ -112,40 +106,29 @@ def createSentence(database):
     l = containedUnorderedWordList  # Set the list to be the containedUnorderedWordList
     n = 3  # Set the size of the chunks to 3
     unorderedTupleList = [l[i:i + n] for i in range(0, len(l), n)]  # Break up the l list into tuples of n length
-    orderedTupleList = sorted(unorderedTupleList, key=itemgetter(0, 2),
-                              reverse=True)  # Set ordered tuple list as unordered tuple list sorted first by first word, second by integer count, reverse so that integer goes high to low
+    orderedTupleList = sorted(unorderedTupleList, key=itemgetter(0, 2), reverse=True)  # Set ordered tuple list as unordered tuple list sorted first by first word, second by integer count, reverse so that integer goes high to low
     while len(sentence) < minLengthOfSentence:  # Repeat this until we get a sentence of a minimum specified length
-        firstWordListIndexRandom = int(random.uniform(0, len(
-            firstWordList)))  # Randomly select an index from 0 through the length of firstWordList
+        firstWordListIndexRandom = int(random.uniform(0, len(firstWordList)))  # Randomly select an index from 0 through the length of firstWordList
         firstWordOfSentence = ''  # Initialize firstWordOfSentence as an empty string
-        firstWordOfSentence = firstWordList[
-            firstWordListIndexRandom]  # Set firstWordOfSentence to the actual word at the random index from above
+        firstWordOfSentence = firstWordList[firstWordListIndexRandom]  # Set firstWordOfSentence to the actual word at the random index from above
         firstWordOfSentenceForSearching = firstWordOfSentence.lower()  # Set firstWordOfSentence for searching to lowercase to match the actual list we need to search
-        firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if y[
-            0] == firstWordOfSentenceForSearching]  # Get the indexes of all of the tuples that contain the first word as the first word in the tuple
+        firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if y[0] == firstWordOfSentenceForSearching]  # Get the indexes of all of the tuples that contain the first word as the first word in the tuple
         firstWordOfSentenceTuples = []  # Initialize firstWordOfSentenceTuples as an empty list
         for index in firstWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples
-            firstWordOfSentenceTuples.append(
-                orderedTupleList[index])  # Append the actual tuples to firstWordOfSentenceTuples
-        firstWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in
-                                                   firstWordOfSentenceTuples]  # Take out the first word so it is a list of tuples of words that follow the previous word plus their integer weight
+            firstWordOfSentenceTuples.append(orderedTupleList[index])  # Append the actual tuples to firstWordOfSentenceTuples
+        firstWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in firstWordOfSentenceTuples]  # Take out the first word so it is a list of tuples of words that follow the previous word plus their integer weight
         nextWord = ''  # Initialize nextWord to empty string
         sentence = ''  # Initialize the sentence as an empty string
         sentence += firstWordOfSentence  # Add the firstWordOfSentence to the sentence
         sentence += ' '  # Add a space character to sentence
-        nextWord = weightedChoice(
-            firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word by weight using weightedChoice()
+        nextWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word by weight using weightedChoice()
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by punctuation
-            nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if y[
-                0] == nextWord]  # Get the indexes of all of the tuples that contain the first word as the first word in the tuple
+            nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(orderedTupleList) if y[0] == nextWord]  # Get the indexes of all of the tuples that contain the first word as the first word in the tuple
             nextWordOfSentenceTuples = []  # Initialize nextWordOfSentenceTuples as an empty list
             for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples
-                nextWordOfSentenceTuples.append(
-                    orderedTupleList[index])  # Append the actual tuples to firstWordOfSentenceTuples
-            nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in
-                                                      nextWordOfSentenceTuples]  # Take out the first word so it is a list of tuples of words that follow the previous word plus their integer weight
-            nextWord = weightedChoice(
-                nextWordOfSentenceTuplesMinusFirstWord)  # Get the nextWord by doing a weightedChoice of the options
+                nextWordOfSentenceTuples.append(orderedTupleList[index])  # Append the actual tuples to firstWordOfSentenceTuples
+            nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Take out the first word so it is a list of tuples of words that follow the previous word plus their integer weight
+            nextWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the nextWord by doing a weightedChoice of the options
             sentence += nextWord  # Add the nextWord to the sentence
             sentence += ' '  # Add a space character after the nextWord
         sentence = sentence.replace(' ,', ',')  # Fix punctuation mistakes
