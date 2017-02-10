@@ -23,6 +23,7 @@ def createSentence(database):
 	rawData.close()  # Close the data stream
 	rawText = rawText.replace('\n', ' ')  # Remove newline characters from text
 	rawText = rawText.replace('\r', ' ')  # Remove newline characters from text
+	rawText = rawText.replace('\t', ' ')  # Remove tab characters from text
 	rawText = rawText.replace('--', ' -- ')  # Break up blah--blah words so it can read 2 separate words "blah -- blah"
 	rawText = rawText.replace(',', ' , ')  # Break up non-words to separate them from words
 	rawText = rawText.replace(';', ' ; ')  # Break up non-words to separate them from words
