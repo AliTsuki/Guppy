@@ -20,6 +20,7 @@ def weightedChoice(choices):  # Create a method for selecting an option randomly
 def createSentence(database):
     minLengthOfSentence = 32  # Initialize minLengthOfSentence to a specific integer length of characters
     sentence = ' '  # Initialize sentence to a string with one space in it
+    with open(database, encoding="utf8") as rawData:  # Open text file and create a data stream
         rawText = rawData.read()  # Read through the stream and create a string containing the text
     rawData.close()  # Close the data stream
     rawText = rawText.replace('\n', ' ')  # Remove newline characters from text
