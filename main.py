@@ -31,6 +31,7 @@ def createSentence(database):
 	rawText = rawText.replace('?', ' ? ')  # Break up non-words to separate them from words
 	rawText = rawText.replace('"', ' ')  # Break up non-words to separate them from words
 	rawText = rawText.replace('”', ' ')  # Break up non-words to separate them from words
+	rawText = rawText.replace('“', ' ')  # Break up non-words to separate them from words
 	rawText = rawText.replace(':', ' : ')  # Break up non-words to separate them from words
 	rawText = rawText.replace('#', ' ')  # Break up non-words to separate them from words
 	rawText = rawText.replace('(', ' ')  # Break up non-words to separate them from words
