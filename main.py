@@ -1,4 +1,4 @@
-# import
+# imports
 import re  # for regex expression below
 from collections import Counter  # import Counter from collections for Counter call below, for counting...
 import random    # import random for doing random functions below
@@ -12,10 +12,11 @@ def parseIntoRawText(textDatabase):
 
 def parseIntoSentenceList(rawTextForSentences):
 	replacementTextToText = [['\n', '\r', '\t', '--', ',', ';', '.', '!', '?', '"', '”', '“', ':', '#', '(', ')', '[', ']', '_', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '=', '‖', 'I.', 'II.', 'III.', 'IV.', 'V.', ' i.', ' ii.', ' iii.', ' iv.', ' v.', '  ', '   '],[' ', ' ', ' ', ' -- ', ' , ', ' ; ', ' . ', ' ! ', ' ? ', ' ', ' ', ' ', ' : ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
-	for index, char in enumerate(replacementTextToText):
-		rawTextForSentences = rawTextForSentences.replace(replacementTextToText[0][index], replacementTextToText[1][index])
-	pat = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Regex pattern for grabbing everything before a sentence ending punctuation mark
-	sentenceListForMethod = pat.findall(rawTextForSentences)  # Apply regex pattern to the string to create a list of all the sentences in the text
+	for index, char in enumerate(replacementTextToText[0]):
+		charIndex = int(index)
+		rawTextForSentences = rawTextForSentences.replace(replacementTextToText[0][charIndex], replacementTextToText[1][charIndex])
+	regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Regex pattern for grabbing everything before a sentence ending punctuation mark
+	sentenceListForMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the string to create a list of all the sentences in the text
 	return sentenceListForMethod
 	
 def parseIntoFirstWordList(sentenceListForMethod):
@@ -77,7 +78,7 @@ def createSentence(firstWords, database):
 	while len(sentence) < minLengthOfSentence:    # Repeat this until we get a sentence of a minimum specified length
 		firstWordListIndexRandom = int(random.uniform(0, len(firstWords)))    # Randomly select an index from 0 through the length of firstWordList
 		firstWordOfSentence = ''    # Initialize firstWordOfSentence as an empty string
-		firstWordOfSentence = firstWordList[firstWordListIndexRandom]    # Set firstWordOfSentence to the actual word at the random index from above
+		firstWordOfSentence = firstWords[firstWordListIndexRandom]    # Set firstWordOfSentence to the actual word at the random index from above
 		firstWordOfSentenceForSearching = firstWordOfSentence.lower()    # Set firstWordOfSentence for searching to lowercase to match the actual list we need to search
 		firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(database) if y[0] == firstWordOfSentenceForSearching]    # Get the indexes of all of the tuples that contain the first word as the first word in the tuple
 		firstWordOfSentenceTuples = []    # Initialize firstWordOfSentenceTuples as an empty list
@@ -98,9 +99,10 @@ def createSentence(firstWords, database):
 			nextWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)    # Get the nextWord by doing a weightedChoice of the options
 			sentence += nextWord    # Add the nextWord to the sentence
 			sentence += ' '    # Add a space character after the nextWord
-		punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?',],[',', ':', ';', ')', '(', '"', '.', '!', '?']]
-		for index, char in punctuationToFixList:
-			sentence = sentence.replace(punctuationToFixList[0][index], punctuationToFixList[1][index])
+		punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'],[',', ':', ';', ')', '(', '"', '.', '!', '?']]
+		for index, char in enumerate(punctuationToFixList[0]):
+			charIndex = int(index)
+			sentence = sentence.replace(punctuationToFixList[0][charIndex], punctuationToFixList[1][charIndex])
 	print(sentence)    # Print final sentence
 
 rawText = parseIntoRawText("text.txt")
@@ -113,4 +115,3 @@ containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordLi
 unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list into tuples of n length, 3
 
 createSentence(firstWordList, unorderedTupleList)    # Run the method and pass it the text file
-
