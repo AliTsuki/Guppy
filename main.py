@@ -113,3 +113,4 @@ containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordLi
 unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list into tuples of n length, 3
 
 createSentence(firstWordList, unorderedTupleList)    # Run the method and pass it the text file
+
