@@ -106,7 +106,7 @@ def createSentence(firstWords, database):    # (createSentence) Method that take
 	maxLengthOfSentence = 140    # Initialize the maximum length of (sentence) in characters (maxLengthOfSentence) to a specific integer length of characters (140)
 	sentence = ' '    # Initialize (sentence) to a string with one space in it
 	# Sentence Loop
-	while len(sentence) < minLengthOfSentence and len(sentence) > maxLengthOfSentence:    # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
+	while len(sentence) < minLengthOfSentence or len(sentence) > maxLengthOfSentence:    # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
 		firstWordListIndexRandom = int(random.uniform(0, len(firstWords)))    # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
 		firstWordOfSentence = ''    # Initialize (firstWordOfSentence) as an empty string
 		firstWordOfSentence = firstWords[firstWordListIndexRandom]    # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
