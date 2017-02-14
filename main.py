@@ -144,3 +144,5 @@ while i < 10:
 	createSentence(firstWordList, unorderedTupleList)    # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
 	print(' ')
 	i += 1
+	
+# Pull more text from http://marx.eserver.org/
