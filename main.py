@@ -95,7 +95,6 @@ def weightedChoice(choices):  # (weightedChoice) Method for selecting a word opt
         if upTo + weight >= r:  # If (upTo) added to (weight) is greater than or equal to (r) then...
             return choice  # Return the string value of (choice)
         upTo += weight  # Set (upTo) to (upTo) plus (weight)
-    assert False, "What fuckery have you committed??"  # You should not tread here, it means you fucked up royally
 
 
 def parseTextTotal(textFile):
@@ -114,7 +113,7 @@ def parseTextTotal(textFile):
     global containedUnorderedWordList  # Global keyword to alter global variable
     containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)  # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
     global unorderedTupleList  # Global keyword to alter global variable
-    unorderedTupleList = [containedUnorderedWordList[i:i + 3] for n in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
+    unorderedTupleList = [unorderedWordList[i:i + 3] for i in range(0, len(unorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
     return firstWordList, unorderedTupleList  # Return both the (firstWordList) and (unorderedTupleList)
 
 
@@ -144,7 +143,7 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
                 nextWordOfSentenceTuples.append(database[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
             nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight as (nextWordOfSentenceTuplesMinusFirstWord)
             nextWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
-            sentence += nextWord  # Add the (nextWord) to the (sentence)
+            sentence += str(nextWord)  # Add the (nextWord) to the (sentence)
             sentence += ' '  # Add a space character after the (nextWord) into (sentence)
         punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'],
                                 [',', ':', ';', ')', '(', '"', '.', '!',
@@ -156,10 +155,10 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
 
 parseTextTotal('text.txt')  # Run the (parseTextTotal) Method and pass it ('text.txt')
 
-i = 0
-while i < 10:
-    createSentence(firstWordList,unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
+k = 0
+while k < 10:
+    createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
     print(' ')
-    i += 1
+    k += 1
 
 # Pull more text from http://marx.eserver.org/
