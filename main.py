@@ -102,10 +102,11 @@ def parseTextTotal(textFile):
 	return firstWordList, unorderedTupleList    # Return both the (firstWordList) and (unorderedTupleList)
 	
 def createSentence(firstWords, database):    # (createSentence) Method that takes an input of (firstWords=(firstWordList)) and (database=(unorderedTupleList)) and creates a sentence from the data using the first words to start with and follows it with the database of words and their weights of instance
-	minLengthOfSentence = 32    # Initialize minimum length of sentence in characters (minLengthOfSentence) to a specific integer length of characters (32)
+	minLengthOfSentence = 32    # Initialize the minimum length of (sentence) in characters (minLengthOfSentence) to a specific integer length of characters (32)
+	maxLengthOfSentence = 140    # Initialize the maximum length of (sentence) in characters (maxLengthOfSentence) to a specific integer length of characters (140)
 	sentence = ' '    # Initialize (sentence) to a string with one space in it
 	# Sentence Loop
-	while len(sentence) < minLengthOfSentence:    # While the length of the sentence (len(sentence)) is less than the minimum required (< minLengthOfSentence) do below and repeat if sentence does not fit minimum length until it does
+	while len(sentence) < minLengthOfSentence and len(sentence) > maxLengthOfSentence:    # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
 		firstWordListIndexRandom = int(random.uniform(0, len(firstWords)))    # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
 		firstWordOfSentence = ''    # Initialize (firstWordOfSentence) as an empty string
 		firstWordOfSentence = firstWords[firstWordListIndexRandom]    # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
@@ -137,4 +138,9 @@ def createSentence(firstWords, database):    # (createSentence) Method that take
 	print(sentence)    # Print final (sentence) to console
 
 parseTextTotal('text.txt')    # Run the (parseTextTotal) Method and pass it ('text.txt')
-createSentence(firstWordList, unorderedTupleList)    # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
+
+i = 0
+while i < 10:
+	createSentence(firstWordList, unorderedTupleList)    # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
+	print(' ')
+	i += 1
