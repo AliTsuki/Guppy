@@ -14,7 +14,7 @@ containedUnorderedWordList = []
 unorderedTupleList = []
 
 # Main file functions
-def parseIntoRawText(textDatabase):    # (parseIntoRawText) Method when passed a textvfile (textDatabase) will turn it into a string (rawTextFromMethod)
+def parseIntoRawText(textDatabase):    # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
 	with open(textDatabase, encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
 	    rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
 	rawData.close()  # Close the data stream so it can be cleaned from memory
