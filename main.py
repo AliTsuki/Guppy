@@ -18,13 +18,13 @@ def parseIntoRawText(textDatabase):    # (parseIntoRawText) Method when passed a
 	with open(textDatabase, encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
 	    rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
 	rawData.close()  # Close the data stream so it can be cleaned from memory
-	return rawTextFromMethod    # Return the (rawTextFromMethod) string as the answer when method is called
-
-def parseIntoSentenceList(rawTextForSentences):    # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
 	replacementTextToText = [['\n', '\r', '\t', '--', ',', ';', '.', '!', '?', '"', '”', '“', ':', '#', '(', ')', '[', ']', '_', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '=', '‖', 'I.', 'II.', 'III.', 'IV.', 'V.', ' i.', ' ii.', ' iii.', ' iv.', ' v.', '  ', '   '],[' ', ' ', ' ', ' -- ', ' , ', ' ; ', ' . ', ' ! ', ' ? ', ' ', ' ', ' ', ' : ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]    # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unneccessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
 	for index, char in enumerate(replacementTextToText[0]):    # Enumerate through the text replacements (replacementTextToText[0])
 		charIndex = int(index)    # Set (charIndex) to be the integer type value of the (index)
-		rawTextForSentences = rawTextForSentences.replace(replacementTextToText[0][charIndex], replacementTextToText[1][charIndex])    # Update raw text (rawTextForSentences) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
+		rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][charIndex], replacementTextToText[1][charIndex])    # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
+	return rawTextFromMethod    # Return the (rawTextFromMethod) string as the answer when method is called
+
+def parseIntoSentenceList(rawTextForSentences):    # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
 	regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Compile regex pattern for grabbing everything before a sentence [A-Z] ending in a punctuation mark [.!?]
 	sentenceListFromMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
 	return sentenceListFromMethod    # Return the list of sentences in the text as (sentenceListFromMethod)
