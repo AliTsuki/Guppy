@@ -2,6 +2,8 @@
 import re  # Import for regex expression below
 from collections import Counter  # Import Counter from collections for Counter call below, for counting...
 import random  # Import random for doing random functions below
+from numpy.random import choice   # Import numpy for numerical python operations
+
 
 # Globals and Initializations
 rawText = ''
@@ -22,7 +24,7 @@ def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a t
     rawData.close()  # Close the data stream so it can be cleaned from memory
     replacementTextToText = [
         ['\n', '\r', '\t', '--', ',', ';', '.', '!', '?', '"', '”', '“', ':', '#', '(', ')', '[', ']', '_', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '=', '‖', 'I.', 'II.', 'III.', 'IV.', 'V.', ' i.', ' ii.', ' iii.', ' iv.', ' v.', '  ', '   '],
-        [' ', ' ', ' ', ' -- ', ' , ', ' ; ', ' . ', ' ! ', ' ? ', ' ', ' ', ' ', ' : ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unneccessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
+        [' ', ' ', ' ', ' -- ', ' , ', ' ; ', ' . ', ' ! ', ' ? ', ' ', ' ', ' ', ' : ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unnecessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
     for index, char in enumerate(replacementTextToText[0]):  # Enumerate through the text replacements (replacementTextToText[0])
         charIndex = int(index)  # Set (charIndex) to be the integer type value of the (index)
         rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][charIndex], replacementTextToText[1][charIndex])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
@@ -84,14 +86,25 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
-    total = sum(weight for choice, weight in choices)  # Set (total) to (sum) of ...???
-    r = random.uniform(0, total)  # Set (r) to a random number between 0 and (total) with (uniform) distribution
-    upTo = 0  # Initialize upTo to 0
-    for choice, weight in choices:  # For all of the choices (choice) in (choices) get (weight)
-        if upTo + weight >= r:  # If (upTo) added to (weight) is greater than or equal to (r) then...
-            return choice  # Return the string value of (choice)
-        upTo += weight  # Set (upTo) to (upTo) plus (weight)
-    assert False, "What fuckery have you committed??"  # You should not tread here, it means you fucked up royally
+    element = [i[0] for i in choices]
+    probability = [i[1] for i in choices]
+    probablilites = #make all probability choices be percents of the total of 1, so add them all together, then take each individual and divide it by the total to get its percent of 1
+    print(element)
+    print(probability)
+    result = choice(element, 1, p=probability)
+    return result
+
+
+
+
+    #total = sum(weight for choice, weight in choices)  # Set (total) to (sum) of ...???
+    #r = random.uniform(0, total)  # Set (r) to a random number between 0 and (total) with (uniform) distribution
+    #upTo = 0  # Initialize upTo to 0
+    #for choice, weight in choices:  # For all of the choices (choice) in (choices) get (weight)
+        #if upTo + weight >= r:  # If (upTo) added to (weight) is greater than or equal to (r) then...
+            #return choice  # Return the string value of (choice)
+        #upTo += weight  # Set (upTo) to (upTo) plus (weight)
+    #assert False, "What fuckery have you committed??"  # You should not tread here, it means you fucked up royally
 
 
 def parseTextTotal(textFile):
