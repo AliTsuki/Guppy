@@ -1,66 +1,76 @@
-# imports
+# Imports
 import re  # Import for regex expression below
 from collections import Counter  # Import Counter from collections for Counter call below, for counting...
 import random    # Import random for doing random functions below
 
-# main file functions
-def parseIntoRawText(textDatabase):    # (parseIntoRawText) Method when passed a textvfile (textDatabase) will turn it into a string (rawTextForMethod)
-	with open(textDatabase, encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
-	    rawTextForMethod = rawData.read()  # Create a (rawTextForMethod) and assign it the entire string from the data stream of all data (rawData.read())
-	rawData.close()  # Close the data stream so it can be cleaned from memory
-	return rawTextForMethod    # Return the (rawTextForMethod) string as the answer when method is called
+# Globals and Initializations
+rawText = ''
+sentenceList = []
+firstWordList = []
+lowercaseWordList = []
+unorderedWordDoubleDict = {}
+unorderedWordList = []
+containedUnorderedWordList = []
+unorderedTupleList = []
 
-def parseIntoSentenceList(rawTextForSentences):    # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListForMethod)
+# Main file functions
+def parseIntoRawText(textDatabase):    # (parseIntoRawText) Method when passed a textvfile (textDatabase) will turn it into a string (rawTextFromMethod)
+	with open(textDatabase, encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
+	    rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
+	rawData.close()  # Close the data stream so it can be cleaned from memory
+	return rawTextFromMethod    # Return the (rawTextFromMethod) string as the answer when method is called
+
+def parseIntoSentenceList(rawTextForSentences):    # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
 	replacementTextToText = [['\n', '\r', '\t', '--', ',', ';', '.', '!', '?', '"', '”', '“', ':', '#', '(', ')', '[', ']', '_', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '=', '‖', 'I.', 'II.', 'III.', 'IV.', 'V.', ' i.', ' ii.', ' iii.', ' iv.', ' v.', '  ', '   '],[' ', ' ', ' ', ' -- ', ' , ', ' ; ', ' . ', ' ! ', ' ? ', ' ', ' ', ' ', ' : ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]    # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unneccessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
 	for index, char in enumerate(replacementTextToText[0]):    # Enumerate through the text replacements (replacementTextToText[0])
 		charIndex = int(index)    # Set (charIndex) to be the integer type value of the (index)
 		rawTextForSentences = rawTextForSentences.replace(replacementTextToText[0][charIndex], replacementTextToText[1][charIndex])    # Update raw text (rawTextForSentences) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
 	regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Compile regex pattern for grabbing everything before a sentence [A-Z] ending in a punctuation mark [.!?]
-	sentenceListForMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListForMethod)
-	return sentenceListForMethod    # Return the list of sentences in the text as (sentenceListForMethod)
+	sentenceListFromMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
+	return sentenceListFromMethod    # Return the list of sentences in the text as (sentenceListFromMethod)
 	
-def parseIntoFirstWordList(sentenceListForMethod):    # (parseIntoFirstWordList) Method that takes a list of sentences (sentenceListForMethod) and turns it into a list of all the first words of those sentences (firstWordListForMethod)
-	firstWordListForMethod = []  # Initialize the empty list for the first word in each sentence (firstWordListForMethod)
-	for index, firstWord in enumerate(sentenceListForMethod):  # Enumerate through the (sentenceListForMethod) and grab the (index) and the (firstWord)
-	    sentenceIndex = int(index)  # Set (sentenceIndexIndex) to be the integer type value of the (index)
-	    firstWord = sentenceList[sentenceIndex].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceList[sentenceIndex]) using the index to find each sentences (firstWord)
-	    firstWordListForMethod.append(firstWord)  # Append each sentence starting word to (firstWordList) from the (sentenceListForMethod) list
-	return firstWordListForMethod    # Return the list of first words of sentences as (firstWordListForMethod)
+def parseIntoFirstWordList(sentenceListForFirstWord):    # (parseIntoFirstWordList) Method that takes a list of sentences (sentenceListForFirstWord) and turns it into a list of all the first words of those sentences (firstWordListFromMethod)
+	firstWordListFromMethod = []  # Initialize the empty list for the first word in each sentence (firstWordListFromMethod)
+	for index, firstWord in enumerate(sentenceListForFirstWord):  # Enumerate through the (sentenceListForFirstWord) and grab the (index) and the (firstWord)
+	    sentenceIndex = int(index)  # Set (sentenceIndex) to be the integer type value of the (index)
+	    firstWord = sentenceListForFirstWord[sentenceIndex].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceList[sentenceIndex]) using the index to find each sentences (firstWord)
+	    firstWordListFromMethod.append(firstWord)  # Append each sentence starting word to (firstWordList) from the (sentenceListFromMethod) list
+	return firstWordListFromMethod    # Return the list of first words of sentences as (firstWordListFromMethod)
 	
-def parseIntoWordList(rawTextForWords):    # (parseIntoWordList) Method that takes raw text string (rawTextForWords) and turns it into a list of lowercase words (lowercaseWordListForMethod)
+def parseIntoWordList(rawTextForWords):    # (parseIntoWordList) Method that takes raw text string (rawTextForWords) and turns it into a list of lowercase words (lowercaseWordListFromMethod)
 	wordList = rawTextForWords.split(' ')  # Create list of all words by splitting the entire text string by the space character
 	wordList = list(filter(None, wordList))  # Use filter to get rid of empty strings in the list (None) in (wordList) and reassign changes to (wordList)
-	lowercaseWordListForMethod = []  # Initialize the empty (lowercaseWordList) list
+	lowercaseWordListFromMethod = []  # Initialize the empty (lowercaseWordList) list
 	for word in wordList:  # Loop through the (wordList) and grab each (word)
-	    lowercaseWordListForMethod.append(word.lower())  # Append the lowercase version of the item (.append(word.lower())) in (wordList) to the (lowercaseWordList)
-	return lowercaseWordListForMethod    # Return the list of all words in the text in their lowercase form (lowercaseWordListForMethod)
+	    lowercaseWordListFromMethod.append(word.lower())  # Append the lowercase version of the item (.append(word.lower())) in (wordList) to the (lowercaseWordList)
+	return lowercaseWordListFromMethod    # Return the list of all words in the text in their lowercase form (lowercaseWordListFromMethod)
 	
-def parseIntoUnorderedWordDoubleDict(lowercaseWordListCall):    # (parseIntoUnorderedWordDoubleDict) Method that turns a list of words (lowercaseWordListCall)
-	nxt = iter(lowercaseWordListCall)  # Set (nxt) as an iteration (iter) of the word list (lowercaseWordListCall)
-	next(nxt, None)  # Use (next) keyword to get next item (nxt, None) in word list (lowercaseWordListCall) for below tuple
-	unorderedWordDoubleDictForMethod = (Counter(zip(lowercaseWordListCall, nxt)).items())  # Create a dict using (Counter) that zips (zip) a tuple of word list (lowercaseWordListCall) and next item in wordList (nxt) with the number of times that tuple exists in the text (.items())
-	return unorderedWordDoubleDictForMethod    # Returns a dictionary item (unorderedWordDoubleDictForMethod) that has a tuple of words as the key, and the amount that tuple of words exists in the text as the value of those individual keys
+def parseIntoUnorderedWordDoubleDict(lowercaseWordListForDict):    # (parseIntoUnorderedWordDoubleDict) Method that takes a list of words (lowercaseWordListForDict) and turns it into a dict of keys and values (unorderedWordDoubleDictFromMethod)
+	nxt = iter(lowercaseWordListForDict)  # Set (nxt) as an iteration (iter) of the word list (lowercaseWordListForDict)
+	next(nxt, None)  # Use (next) keyword to get next item (nxt, None) in word list (lowercaseWordListForDict) for below tuple
+	unorderedWordDoubleDictFromMethod = (Counter(zip(lowercaseWordListForDict, nxt)).items())  # Create a dict using (Counter) that zips (zip) a tuple of word list (lowercaseWordListForDict) and next item in wordList (nxt) with the number of times that tuple exists in the text (.items())
+	return unorderedWordDoubleDictFromMethod    # Returns a dictionary item (unorderedWordDoubleDictFromMethod) that has a tuple of words as the key, and the amount that tuple of words exists in the text as the value of those individual keys
 	
-def parseIntoUnorderedWordList(unorderedWordDoubleDictCall):    # (parseIntoUnorderedWordList) Method that turns the above described dict into a list (unorderedWordListForMethod)
-	unorderedWordListForMethod = []  # Initialize the (unorderedWordList) that will contain both the keys and values in list format instead of dict format
-	for key, value in unorderedWordDoubleDictCall:  # Loop through the (unorderedWordDoubleDict) grabbing keys (key) and values (value)
-	    unorderedWordListForMethod.append(key)  # Append keys (key) to (unorderedWordListForMethod)
-	    unorderedWordListForMethod.append(value)  # Append values (value) to (unorderedWordListForMethod)
-	return unorderedWordListForMethod    # Return the unsorted list of word tuples and their count as individual items in a single list (unorderedWordListForMethod)
+def parseIntoUnorderedWordList(unorderedWordDoubleDictForList):    # (parseIntoUnorderedWordList) Method that turns the above described dict into a list (unorderedWordListFromMethod)
+	unorderedWordListFromMethod = []  # Initialize the (unorderedWordListFromMethod) that will contain both the keys and values in list format instead of dict format
+	for key, value in unorderedWordDoubleDictForList:  # Loop through the (unorderedWordDoubleDict) grabbing keys (key) and values (value)
+	    unorderedWordListFromMethod.append(key)  # Append keys (key) to (unorderedWordListFromMethod)
+	    unorderedWordListFromMethod.append(value)  # Append values (value) to (unorderedWordListFromMethod)
+	return unorderedWordListFromMethod    # Return the unsorted list of word tuples and their count as individual items in a single list (unorderedWordListFromMethod)
 	
-def parseIntoContainedUnorderedWordList(unorderedWordListCall):    # (parseIntoContainedUnorderedWordList) Method that turns an unsorted word list and their counts (unorderedWordListCall) with a list that contains its own lists containing the first and second word in the tuple and their integer count
-	containedUnorderedWordListForMethod = []  # Initialize the empty (containedUnorderedWordList) list that will contain each word in the tuples and their integer count (containedUnorderedWordListForMethod)
+def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):    # (parseIntoContainedUnorderedWordList) Method that turns an unsorted word list and their counts (unorderedWordListForContainment) with a list that contains its own lists containing the first and second word in the tuple and their integer count (containedUnorderedWordListFromMethod)
+	containedUnorderedWordListFromMethod = []  # Initialize the empty (containedUnorderedWordListFromMethod) list that will contain each word in the tuples and their integer count (containedUnorderedWordListFromMethod)
 	count = 0  # Initialize (count) to 0 to start at the beginning
-	while count < len(unorderedWordListCall):  # Loop through (count) while it is less than the total length of the unorderedWordListCall (< len(unorderedWordListCall))
-	    wordTuple = unorderedWordListCall[count]  # Grab the tuple (wordTuple) located at current (count) index of (unorderedWordListCall)
+	while count < len(unorderedWordListForContainment):  # Loop through (count) while it is less than the total length of the unorderedWordListCall (< len(unorderedWordListForContainment))
+	    wordTuple = unorderedWordListForContainment[count]  # Grab the tuple (wordTuple) located at current (count) index of (unorderedWordListForContainment)
 	    firstTupleWord = wordTuple[0]  # Grab the first word (firstTupleWord) of the grabbed tuple (wordTuple[0])
 	    secondTupleWord = wordTuple[1]  # Grab the second word (secondTupleWord) of the grabbed tuple (wordTuple[1])
-	    integerCount = unorderedWordListCall[count + 1]  # Grab the integer count (integerCount) of the grabbed tuple (unorderedWordListCall[count + 1])
-	    containedUnorderedWordListForMethod.append(firstTupleWord)  # Append the first word (.append(firstTupleWord) to (containedUnorderedWordListForMethod)
-	    containedUnorderedWordListForMethod.append(secondTupleWord)  # Append the second word (.append(secondTupleWord) to (containedUnorderedWordListForMethod)
-	    containedUnorderedWordListForMethod.append(integerCount)  # Append the integer (.append(integerCount) to (containedUnorderedWordListForMethod)
+	    integerCount = unorderedWordListForContainment[count + 1]  # Grab the integer count (integerCount) of the grabbed tuple (unorderedWordListForContainment[count + 1])
+	    containedUnorderedWordListFromMethod.append(firstTupleWord)  # Append the first word (.append(firstTupleWord) to (containedUnorderedWordListFromMethod)
+	    containedUnorderedWordListFromMethod.append(secondTupleWord)  # Append the second word (.append(secondTupleWord) to (containedUnorderedWordListFromMethod)
+	    containedUnorderedWordListFromMethod.append(integerCount)  # Append the integer (.append(integerCount) to (containedUnorderedWordListForMethod)
 	    count += 2  # Jump the (count) ahead 2 spaces to next set of tuple and integer, 0 is first word, 1 is second word, 2 is integer count, so go ahead 2 to 3 which is next tuple in list
-	return containedUnorderedWordListForMethod    # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListForMethod)
+	return containedUnorderedWordListFromMethod    # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 def weightedChoice(choices):    # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
 	total = sum(weight for choice, weight in choices)    # Set (total) to (sum) of ...???
@@ -71,10 +81,30 @@ def weightedChoice(choices):    # (weightedChoice) Method for selecting a word o
 			return choice    # Return the string value of (choice)
 		upTo += weight    # Set (upTo) to (upTo) plus (weight)
 	assert False, "What fuckery have you committed??"    # You should not tread here, it means you fucked up royally
-
+	
+def parseTextTotal(textFile):
+	global rawText    # Global keyword to alter global variable
+	rawText = parseIntoRawText(textFile)    # Set (rawText) to the value returned by passing ("text.txt") to (parseIntoRawText) Method
+	global sentenceList    # Global keyword to alter global variable
+	sentenceList = parseIntoSentenceList(rawText)    # Set (sentenceList) to the value returned by passing (rawText) to (parseIntoSentenceList) Method
+	global firstWordList    # Global keyword to alter global variable
+	firstWordList = parseIntoFirstWordList(sentenceList)    # Set (firstWordList) to the value returned by passing (sentenceList) to (parseIntoFirstWordList) Method
+	global lowercaseWordList    # Global keyword to alter global variable
+	lowercaseWordList = parseIntoWordList(rawText)    # Set (lowercaseWordList) to the value returned by passing (rawText) to (parseIntoWordList) Method
+	global unorderedWordDoubleDict    # Global keyword to alter global variable
+	unorderedWordDoubleDict = parseIntoUnorderedWordDoubleDict(lowercaseWordList)    # Set (unorderedWordDoubleDict) to the value returned by passing (lowercaseWordList) to (parseIntoUnorderedWordDoubleDict) Method
+	global unorderedWordList    # Global keyword to alter global variable
+	unorderedWordList = parseIntoUnorderedWordList(unorderedWordDoubleDict)    # Set (unorderedWordList) to the value returned by passing (unorderedWordDoubleDict) to (parseIntoUnorderedWordList) Method
+	global containedUnorderedWordList    # Global keyword to alter global variable
+	containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)    # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
+	global unorderedTupleList    # Global keyword to alter global variable
+	unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
+	return firstWordList, unorderedTupleList    # Return both the (firstWordList) and (unorderedTupleList)
+	
 def createSentence(firstWords, database):    # (createSentence) Method that takes an input of (firstWords=(firstWordList)) and (database=(unorderedTupleList)) and creates a sentence from the data using the first words to start with and follows it with the database of words and their weights of instance
 	minLengthOfSentence = 32    # Initialize minimum length of sentence in characters (minLengthOfSentence) to a specific integer length of characters (32)
 	sentence = ' '    # Initialize (sentence) to a string with one space in it
+	# Sentence Loop
 	while len(sentence) < minLengthOfSentence:    # While the length of the sentence (len(sentence)) is less than the minimum required (< minLengthOfSentence) do below and repeat if sentence does not fit minimum length until it does
 		firstWordListIndexRandom = int(random.uniform(0, len(firstWords)))    # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
 		firstWordOfSentence = ''    # Initialize (firstWordOfSentence) as an empty string
@@ -90,6 +120,7 @@ def createSentence(firstWords, database):    # (createSentence) Method that take
 		sentence += firstWordOfSentence    # Add the (firstWordOfSentence) to the (sentence)
 		sentence += ' '    # Add a space character to (sentence)
 		nextWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)    # Grab the next word (nextWord) by weight using (weightedChoice) and passing it (firstWordOfSentenceTuplesMinusFirstWord)
+		# Next Word Loop
 		while nextWord != '.' and nextWord != '!' and nextWord != '?':    # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
 			nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(database) if y[0] == nextWord]    # Get the indexes of all of the tuples that contain the word as the first word in the tuple 
 			nextWordOfSentenceTuples = []    # Initialize (nextWordOfSentenceTuples) as an empty list
@@ -100,18 +131,10 @@ def createSentence(firstWords, database):    # (createSentence) Method that take
 			sentence += nextWord    # Add the (nextWord) to the (sentence)
 			sentence += ' '    # Add a space character after the (nextWord) into (sentence)
 		punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'],[',', ':', ';', ')', '(', '"', '.', '!', '?']]    # A list of all the punctuation to be fixed in [0] and the text to replace them in [1] with the same indices, mostly getting rid of extra space characters
-		for index, char in enumerate(punctuationToFixList[0]):    # Go through the list of punctuationToFixList and grab the indices and character
-			charIndex = int(index)    # Turn the (index) into an integer type (int()) and assign it to (charIndex)
-			sentence = sentence.replace(punctuationToFixList[0][charIndex], punctuationToFixList[1][charIndex])    # Go through the sentence and take values in [0] and replace them with values from [1] at the same indices
+		for index, punctuation in enumerate(punctuationToFixList[0]):    # Go through the list of punctuationToFixList and grab the indices and character
+			punctuationIndex = int(index)    # Turn the (index) into an integer type (int()) and assign it to (charIndex)
+			sentence = sentence.replace(punctuationToFixList[0][punctuationIndex], punctuationToFixList[1][punctuationIndex])    # Go through the sentence and take values in [0] and replace them with values from [1] at the same indices
 	print(sentence)    # Print final (sentence) to console
 
-rawText = parseIntoRawText("text.txt")    # Set (rawText) to the value returned by passing ("text.txt") to (parseIntoRawText) Method
-sentenceList = parseIntoSentenceList(rawText)    # Set (sentenceList) to the value returned by passing (rawText) to (parseIntoSentenceList) Method
-firstWordList = parseIntoFirstWordList(sentenceList)    # Set (firstWordList) to the value returned by passing (sentenceList) to (parseIntoFirstWordList) Method
-lowercaseWordList = parseIntoWordList(rawText)    # Set (lowercaseWordList) to the value returned by passing (rawText) to (parseIntoWordList) Method
-unorderedWordDoubleDict = parseIntoUnorderedWordDoubleDict(lowercaseWordList)    # Set (unorderedWordDoubleDict) to the value returned by passing (lowercaseWordList) to (parseIntoUnorderedWordDoubleDict) Method
-unorderedWordList = parseIntoUnorderedWordList(unorderedWordDoubleDict)    # Set (unorderedWordList) to the value returned by passing (unorderedWordDoubleDict) to (parseIntoUnorderedWordList) Method
-containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)    # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
-unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
-
+parseTextTotal('text.txt')    # Run the (parseTextTotal) Method and pass it ('text.txt')
 createSentence(firstWordList, unorderedTupleList)    # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
