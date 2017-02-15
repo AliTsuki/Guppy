@@ -18,8 +18,7 @@ unorderedTupleList = []
 
 # Main file functions
 def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
-    with open(textDatabase,
-              encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
+    with open(textDatabase, encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
         rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
     rawData.close()  # Close the data stream so it can be cleaned from memory
     replacementTextToText = [
@@ -86,12 +85,20 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
-    element = [i[0] for i in choices]
-    probability = [i[1] for i in choices]
-    probabilityTotal += [i for i in probability]
-    probabilities = probabilities.append([i for i in probablity] / probabilityTotal)
-	result = choice(element, 1, p=probability)
-    return result
+	elements = [i[0] for i in choices]
+	probability = [i[1] for i in choices]
+	probabilityTotal = 0
+	i = 0
+	while i < len(probability):
+		probabilityTotal += probability[i]
+		i = i + 1
+	probabilities = []
+	for index, integer in enumerate(probability):  # Go through the list of punctuationToFixList and grab the indices and character
+		probababilityIndex = int(index)  # Turn the (index) into an integer type (int()) and assign it to (charIndex)
+		probabilities.append(probability[probababilityIndex] / probabilityTotal)
+	result = str(choice(elements, 1, p=probabilities))
+	return result
+	# FIX THIS MESS
 
 
 def parseTextTotal(textFile):
