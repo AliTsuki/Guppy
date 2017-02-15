@@ -88,23 +88,10 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
     element = [i[0] for i in choices]
     probability = [i[1] for i in choices]
-    probablilites = #make all probability choices be percents of the total of 1, so add them all together, then take each individual and divide it by the total to get its percent of 1
-    print(element)
-    print(probability)
-    result = choice(element, 1, p=probability)
+    probabilityTotal += [i for i in probability]
+    probabilities = probabilities.append([i for i in probablity] / probabilityTotal)
+	result = choice(element, 1, p=probability)
     return result
-
-
-
-
-    #total = sum(weight for choice, weight in choices)  # Set (total) to (sum) of ...???
-    #r = random.uniform(0, total)  # Set (r) to a random number between 0 and (total) with (uniform) distribution
-    #upTo = 0  # Initialize upTo to 0
-    #for choice, weight in choices:  # For all of the choices (choice) in (choices) get (weight)
-        #if upTo + weight >= r:  # If (upTo) added to (weight) is greater than or equal to (r) then...
-            #return choice  # Return the string value of (choice)
-        #upTo += weight  # Set (upTo) to (upTo) plus (weight)
-    #assert False, "What fuckery have you committed??"  # You should not tread here, it means you fucked up royally
 
 
 def parseTextTotal(textFile):
