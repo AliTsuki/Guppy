@@ -140,7 +140,9 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
         sentence = ''  # Set (sentence) to an empty string
         sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
         sentence += ' '  # Add a space character to (sentence)
-        nextWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word (nextWord) by weight using (weightedChoice) and passing it (firstWordOfSentenceTuplesMinusFirstWord)
+        if firstWordOfSentenceTuplesMinusFirstWord != []:
+        	nextWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word (nextWord) by weight using (weightedChoice) and passing it (firstWordOfSentenceTuplesMinusFirstWord)
+        else: break
         # Next Word Loop
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
             nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(database) if y[0] == nextWord]  # Get the indexes of all of the tuples that contain the word as the first word in the tuple
@@ -148,9 +150,11 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
             for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
                 nextWordOfSentenceTuples.append(database[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
             nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight as (nextWordOfSentenceTuplesMinusFirstWord)
-            nextWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
-            sentence += nextWord  # Add the (nextWord) to the (sentence)
-            sentence += ' '  # Add a space character after the (nextWord) into (sentence)
+            if nextWordOfSentenceTuplesMinusFirstWord != []:
+            	nextWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+            	sentence += nextWord  # Add the (nextWord) to the (sentence)
+            	sentence += ' '  # Add a space character after the (nextWord) into (sentence)
+            else: break
         punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'], [',', ':', ';', ')', '(', '"', '.', '!', '?']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1] with the same indices, mostly getting rid of extra space characters
         for index, punctuation in enumerate(punctuationToFixList[0]):  # Go through the list of punctuationToFixList and grab the indices and character
             punctuationIndex = int(index)  # Turn the (index) into an integer type (int()) and assign it to (charIndex)
