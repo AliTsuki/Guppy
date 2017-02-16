@@ -105,7 +105,8 @@ def getNextWord(nxtWord, dbase):
 	for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
 		nextWordOfSentenceTuples.append(dbase[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
 	nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight as (nextWordOfSentenceTuplesMinusFirstWord)
-	nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+	while nextWordOfSentenceTuplesMinusFirstWord != []:
+		nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
 	return nxtWord
 	
 	
