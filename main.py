@@ -84,6 +84,31 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
+def getFirstWord(fWordList, dbase):
+	firstWordListIndexRandom = int(random.uniform(0, len(fWordList)))  # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
+	firstWordOfSentence = ''  # Initialize (firstWordOfSentence) as an empty string
+	firstWordOfSentence = fWordList[firstWordListIndexRandom]  # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
+	firstWordOfSentenceForSearching = firstWordOfSentence.lower()  # Set (firstWordOfSentenceForSearching) for searching to lowercase (.lower()) to match the actual list we need to search, which is all in lowercase
+	firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(dbase) if y[0] == firstWordOfSentenceForSearching]  # Get the indexes of all of the tuples that contain the first word as the first word in their tuple and put those indices into (firstWordOfSentenceTupleIndexes)
+	firstWordOfSentenceTuples = []  # Initialize (firstWordOfSentenceTuples) as an empty list
+	for index in firstWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (firstWordOfSentenceTupleIndexes)
+		firstWordOfSentenceTuples.append(dbase[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
+	firstWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in firstWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight and set to (firstWordOfSentenceTuplesMinusFirstWord)
+	while firstWordOfSentenceTuplesMinusFirstWord != []:
+        	nxtWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word (nextWord) by weight using (weightedChoice) and passing it (firstWordOfSentenceTuplesMinusFirstWord)
+	return nxtWord
+	
+	
+def getNextWord(nxtWord, dbase):
+	nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(dbase) if y[0] == nxtWord]  # Get the indexes of all of the tuples that contain the word as the first word in the tuple
+	nextWordOfSentenceTuples = []  # Initialize (nextWordOfSentenceTuples) as an empty list
+	for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
+		nextWordOfSentenceTuples.append(dbase[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
+	nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight as (nextWordOfSentenceTuplesMinusFirstWord)
+	nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+	return nxtWord
+	
+	
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
 	elements = [i[0] for i in choices]
 	probability = [i[1] for i in choices]
@@ -127,34 +152,17 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
     sentence = ' '  # Initialize (sentence) to a string with one space in it
     # Sentence Loop
     while len(sentence) < minLengthOfSentence or len(sentence) > maxLengthOfSentence:  # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
-        firstWordListIndexRandom = int(random.uniform(0, len(firstWords)))  # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
-        firstWordOfSentence = ''  # Initialize (firstWordOfSentence) as an empty string
-        firstWordOfSentence = firstWords[firstWordListIndexRandom]  # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
-        firstWordOfSentenceForSearching = firstWordOfSentence.lower()  # Set (firstWordOfSentenceForSearching) for searching to lowercase (.lower()) to match the actual list we need to search, which is all in lowercase
-        firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(database) if y[0] == firstWordOfSentenceForSearching]  # Get the indexes of all of the tuples that contain the first word as the first word in their tuple and put those indices into (firstWordOfSentenceTupleIndexes)
-        firstWordOfSentenceTuples = []  # Initialize (firstWordOfSentenceTuples) as an empty list
-        for index in firstWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (firstWordOfSentenceTupleIndexes)
-            firstWordOfSentenceTuples.append(database[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
-        firstWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in firstWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight and set to (firstWordOfSentenceTuplesMinusFirstWord)
-        nextWord = ''  # Initialize (nextWord) to an empty string
-        sentence = ''  # Set (sentence) to an empty string
-        sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
-        sentence += ' '  # Add a space character to (sentence)
-        if firstWordOfSentenceTuplesMinusFirstWord != []:
-        	nextWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word (nextWord) by weight using (weightedChoice) and passing it (firstWordOfSentenceTuplesMinusFirstWord)
-        else: break
+    	firstWordOfSentence = getFirstWord(firstWords, database)
+    	nextWord = ''  # Initialize (nextWord) to an empty string
+    	sentence = ''  # Set (sentence) to an empty string
+    	sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
+    	sentence += ' '  # Add a space character to (sentence)
+    	nextWord = firstWordOfSentence
         # Next Word Loop
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
-            nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(database) if y[0] == nextWord]  # Get the indexes of all of the tuples that contain the word as the first word in the tuple
-            nextWordOfSentenceTuples = []  # Initialize (nextWordOfSentenceTuples) as an empty list
-            for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
-                nextWordOfSentenceTuples.append(database[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
-            nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight as (nextWordOfSentenceTuplesMinusFirstWord)
-            if nextWordOfSentenceTuplesMinusFirstWord != []:
-            	nextWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
-            	sentence += nextWord  # Add the (nextWord) to the (sentence)
-            	sentence += ' '  # Add a space character after the (nextWord) into (sentence)
-            else: break
+        	nextWord = getNextWord(nextWord, database)
+            sentence += nextWord  # Add the (nextWord) to the (sentence)
+            sentence += ' '  # Add a space character after the (nextWord) into (sentence)
         punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'], [',', ':', ';', ')', '(', '"', '.', '!', '?']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1] with the same indices, mostly getting rid of extra space characters
         for index, punctuation in enumerate(punctuationToFixList[0]):  # Go through the list of punctuationToFixList and grab the indices and character
             punctuationIndex = int(index)  # Turn the (index) into an integer type (int()) and assign it to (charIndex)
