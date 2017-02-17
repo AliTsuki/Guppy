@@ -3,6 +3,7 @@ import re  # Import for regex expression below
 from collections import Counter  # Import Counter from collections for Counter call below, for counting...
 import random  # Import random for doing random functions below
 from numpy.random import choice  # Import numpy for numerical python operations
+import sys
 
 # Globals and Initializations
 rawText = ''
@@ -29,7 +30,7 @@ def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a t
          ' ', ' ', ' ', ' ',
          ' ']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unnecessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
     for index, char in enumerate(replacementTextToText[0]):  # Enumerate through the text replacements (replacementTextToText[0])
-        rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][index], replacementTextToText[1][index])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
+        rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][index], replacementTextToText[1][index])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same inde
     return rawTextFromMethod  # Return the (rawTextFromMethod) string as the answer when method is called
 
 
@@ -101,18 +102,17 @@ def getNextWord(nxtWord, dbase):
         for x, y in enumerate(dbase):
             if y[0] == nxtWord:
                 nextWordOfSentenceTupleIndexes.append(x)
-        print(nextWordOfSentenceTupleIndexes)
         if nextWordOfSentenceTupleIndexes:
             nextWordOfSentenceTuples = []  # Initialize (nextWordOfSentenceTuples) as an empty list
             for indices in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
-                print(indices)
                 nextWordOfSentenceTuples.append(dbase[indices])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
             nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]
             if nextWordOfSentenceTuplesMinusFirstWord:
                 nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+            nxtWord = str(nxtWord[0])
             return nxtWord
         else:
-            print('nextWordOfSentenceTupleIndexes is empty')
+            sys.exit()
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
@@ -175,10 +175,10 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
 
 parseTextTotal('text.txt')  # Run the (parseTextTotal) Method and pass it ('text.txt')
 
-#k = 0
-#while k < 10:
-createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
-    #print(' ')
-    #k += 1
+k = 0
+while k < 10:
+    createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
+    print(' ')
+    k += 1
 
 # Pull more text from http://marx.eserver.org/
