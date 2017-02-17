@@ -3,7 +3,7 @@ import re  # Import for regex expression below
 from collections import Counter  # Import Counter from collections for Counter call below, for counting...
 import random  # Import random for doing random functions below
 from numpy.random import choice  # Import numpy for numerical python operations
-import sys
+import sys # Import sys for exit statement below
 
 # Globals and Initializations
 rawText = ''
@@ -18,7 +18,7 @@ unorderedTupleList = []
 
 # Main file functions
 def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
-    with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
+    with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, give read and write permissions, read as utf8 encoded, and create a data stream of all the data
         rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
     rawData.close()  # Close the data stream so it can be cleaned from memory
     replacementTextToText = [
@@ -30,14 +30,14 @@ def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a t
          ' ', ' ', ' ', ' ',
          ' ']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unnecessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
     for index, char in enumerate(replacementTextToText[0]):  # Enumerate through the text replacements (replacementTextToText[0])
-        rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][index], replacementTextToText[1][index])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same inde
+        rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][index], replacementTextToText[1][index])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
     return rawTextFromMethod  # Return the (rawTextFromMethod) string as the answer when method is called
 
 
 def parseIntoSentenceList(rawTextForSentences):  # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
     regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Compile regex pattern for grabbing everything before a sentence [A-Z] ending in a punctuation mark [.!?]
     sentenceListFromMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
-    sentenceListFromMethod = list(filter(None, sentenceListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (wordList) and reassign changes to (wordList)
+    sentenceListFromMethod = list(filter(None, sentenceListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (sentenceListFromMethod) and reassign changes to (sentenceListFromMethod)
     return sentenceListFromMethod  # Return the list of sentences in the text as (sentenceListFromMethod)
 
 
@@ -45,15 +45,15 @@ def parseIntoFirstWordList(sentenceListForFirstWord):  # (parseIntoFirstWordList
     firstWordListFromMethod = []  # Initialize the empty list for the first word in each sentence (firstWordListFromMethod)
     for index, firstWord in enumerate(sentenceListForFirstWord):  # Enumerate through the (sentenceListForFirstWord) and grab the (index) and the (firstWord)
         firstWord = sentenceListForFirstWord[index].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceList[index]) using the index to find each sentences (firstWord)
-        firstWordListFromMethod.append(firstWord)  # Append each sentence starting word to (firstWordList) from the (sentenceListFromMethod) list
-    firstWordListFromMethod = list(filter(None, firstWordListFromMethod))
+        firstWordListFromMethod.append(firstWord)  # Append each sentence starting word (firstWord) to (firstWordListFromMethod) from the (sentenceListForFirstWord)
+    firstWordListFromMethod = list(filter(None, firstWordListFromMethod))    # Use filter to get rid of empty strings in the list (None) in (firstWordListFromMethod) and reassign changes to (firstWordListFromMethod)
     return firstWordListFromMethod  # Return the list of first words of sentences as (firstWordListFromMethod)
 
 
 def parseIntoWordList(rawTextForWords):  # (parseIntoWordList) Method that takes raw text string (rawTextForWords) and turns it into a list of lowercase words (lowercaseWordListFromMethod)
     wordList = rawTextForWords.split(' ')  # Create list of all words by splitting the entire text string by the space character
     wordList = list(filter(None, wordList))  # Use filter to get rid of empty strings in the list (None) in (wordList) and reassign changes to (wordList)
-    lowercaseWordListFromMethod = []  # Initialize the empty (lowercaseWordList) list
+    lowercaseWordListFromMethod = []  # Initialize the empty (lowercaseWordListFromMethod) list
     for word in wordList:  # Loop through the (wordList) and grab each (word)
         lowercaseWordListFromMethod.append(word.lower())  # Append the lowercase version of the item (.append(word.lower())) in (wordList) to the (lowercaseWordList)
     return lowercaseWordListFromMethod  # Return the list of all words in the text in their lowercase form (lowercaseWordListFromMethod)
@@ -84,15 +84,15 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
         integerCount = unorderedWordListForContainment[count + 1]  # Grab the integer count (integerCount) of the grabbed tuple (unorderedWordListForContainment[count + 1])
         containedUnorderedWordListFromMethod.append(firstTupleWord)  # Append the first word (.append(firstTupleWord) to (containedUnorderedWordListFromMethod)
         containedUnorderedWordListFromMethod.append(secondTupleWord)  # Append the second word (.append(secondTupleWord) to (containedUnorderedWordListFromMethod)
-        containedUnorderedWordListFromMethod.append(integerCount)  # Append the integer (.append(integerCount) to (containedUnorderedWordListForMethod)
+        containedUnorderedWordListFromMethod.append(integerCount)  # Append the integer (.append(integerCount)) to (containedUnorderedWordListForMethod)
         count += 2  # Jump the (count) ahead 2 spaces to next set of tuple and integer, 0 is first word, 1 is second word, 2 is integer count, so go ahead 2 to 3 which is next tuple in list
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
-def getFirstWord(fWordList):
+def getFirstWord(fWordList):    # (getFirstWord) Method that grabs a first word from (fWordList) and returns it as (firstWordOfSentence)
     firstWordListIndexRandom = int(random.uniform(0, len(fWordList)))  # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
     firstWordOfSentence = fWordList[firstWordListIndexRandom]  # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
-    return firstWordOfSentence
+    return firstWordOfSentence    # Return the (firstWordOfSentence)
 
 
 def getNextWord(nxtWord, dbase):
@@ -116,24 +116,23 @@ def getNextWord(nxtWord, dbase):
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
-    elements = [i[0] for i in choices]
-    probability = [i[1] for i in choices]
-    probabilityTotal = 0
-    i = 0
-    while i < len(probability):
-        probabilityTotal += probability[i]
-        i += 1
-    probabilities = []
-    for index, integer in enumerate(probability):  # Go through the list of punctuationToFixList and grab the indices and character
-        probabilities.append(probability[index] / probabilityTotal)
-    result = choice(elements, 1, p=probabilities)
-    return result
-# FIX THIS MESS
+    elements = [i[0] for i in choices]    # Set (elements) to all of the (i[0]) of (choices)
+    probability = [i[1] for i in choices]    # Set (probability) to the (i[1]) of (choices)
+    probabilityTotal = 0    # Initialize (probabilityTotal) to 0
+    i = 0    # Initialize (i) to 0
+    while i < len(probability):    # While (i) is less than the length of (probability)
+        probabilityTotal += probability[i]    # Add the integer at probability[i] to (probabilityTotal)
+        i += 1    # Add 1 to (i)
+    probabilities = []    # Initialize (probabilities) to an empty list
+    for index, integer in enumerate(probability):  # Enumerate through (probability) and grab the (index) and (integer)
+        probabilities.append(probability[index] / probabilityTotal)    # Append (probablility[index]) divided by (probabilityTotal) getting the probablility percent to probabilities
+    result = choice(elements, 1, p=probabilities)    # Set (result) to return of (choice()) that is passed the list of (elements), grab 1 element, use (probabilities) as percent
+    return result    # Return the (result)
 
 
-def parseTextTotal(textFile):
+def parseTextTotal(textFile):    # (parseTextTotal) Method that parses all of the text in (textFile) and creates all the necessary databases
     global rawText  # Global keyword to alter global variable
-    rawText = parseIntoRawText(textFile)  # Set (rawText) to the value returned by passing ("text.txt") to (parseIntoRawText) Method
+    rawText = parseIntoRawText(textFile)  # Set (rawText) to the value returned by passing (textFile) to (parseIntoRawText) Method
     global sentenceList  # Global keyword to alter global variable
     sentenceList = parseIntoSentenceList(rawText)  # Set (sentenceList) to the value returned by passing (rawText) to (parseIntoSentenceList) Method
     global firstWordList  # Global keyword to alter global variable
@@ -162,10 +161,10 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
         sentence = ''  # Set (sentence) to an empty string
         sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
         sentence += ' '  # Add a space character to (sentence)
-        nextWord = firstWordOfSentence.lower()
+        nextWord = firstWordOfSentence.lower()    # Set (nextWord) to the lowercase of (firstWordOfSentence)
         # Next Word Loop
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
-            nextWord = str(getNextWord(nextWord, database))
+            nextWord = str(getNextWord(nextWord, database))    # Set (nextWord) to the string of (getNextWord) by passing it (nextWord) and (database)
             sentence += nextWord  # Add the (nextWord) to the (sentence)
             sentence += ' '  # Add a space character after the (nextWord) into (sentence)
     punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'], [',', ':', ';', ')', '(', '"', '.', '!', '?']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1] with the same indices, mostly getting rid of extra space characters
