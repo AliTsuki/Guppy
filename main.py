@@ -17,7 +17,7 @@ unorderedTupleList = []
 
 # Main file functions
 def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
-    with open(textDatabase, encoding="utf8") as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
+    with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, read as utf8 encoded, and create a data stream of all the data
         rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
     rawData.close()  # Close the data stream so it can be cleaned from memory
     replacementTextToText = [
@@ -29,23 +29,23 @@ def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a t
          ' ', ' ', ' ', ' ',
          ' ']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1], this mostly turns unnecessary punctuation into spaces or adds spaces around punctuation so that the punctuation isn't considered a character of each word for later
     for index, char in enumerate(replacementTextToText[0]):  # Enumerate through the text replacements (replacementTextToText[0])
-        charIndex = int(index)  # Set (charIndex) to be the integer type value of the (index)
-        rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][charIndex], replacementTextToText[1][charIndex])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
+        rawTextFromMethod = rawTextFromMethod.replace(replacementTextToText[0][index], replacementTextToText[1][index])  # Update raw text (rawTextFromMethod) to have all its items in the (replacementTextToText[0]) with the item in (replacementTextToText[1]) of the same index
     return rawTextFromMethod  # Return the (rawTextFromMethod) string as the answer when method is called
 
 
 def parseIntoSentenceList(rawTextForSentences):  # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
     regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Compile regex pattern for grabbing everything before a sentence [A-Z] ending in a punctuation mark [.!?]
     sentenceListFromMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
+    sentenceListFromMethod = list(filter(None, sentenceListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (wordList) and reassign changes to (wordList)
     return sentenceListFromMethod  # Return the list of sentences in the text as (sentenceListFromMethod)
 
 
 def parseIntoFirstWordList(sentenceListForFirstWord):  # (parseIntoFirstWordList) Method that takes a list of sentences (sentenceListForFirstWord) and turns it into a list of all the first words of those sentences (firstWordListFromMethod)
     firstWordListFromMethod = []  # Initialize the empty list for the first word in each sentence (firstWordListFromMethod)
     for index, firstWord in enumerate(sentenceListForFirstWord):  # Enumerate through the (sentenceListForFirstWord) and grab the (index) and the (firstWord)
-        sentenceIndex = int(index)  # Set (sentenceIndex) to be the integer type value of the (index)
-        firstWord = sentenceListForFirstWord[sentenceIndex].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceList[sentenceIndex]) using the index to find each sentences (firstWord)
+        firstWord = sentenceListForFirstWord[index].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceList[index]) using the index to find each sentences (firstWord)
         firstWordListFromMethod.append(firstWord)  # Append each sentence starting word to (firstWordList) from the (sentenceListFromMethod) list
+    firstWordListFromMethod = list(filter(None, firstWordListFromMethod))
     return firstWordListFromMethod  # Return the list of first words of sentences as (firstWordListFromMethod)
 
 
@@ -88,34 +88,37 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
-def getFirstWord(fWordList, dbase):
+def getFirstWord(fWordList):
     firstWordListIndexRandom = int(random.uniform(0, len(fWordList)))  # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
     firstWordOfSentence = ''  # Initialize (firstWordOfSentence) as an empty string
     firstWordOfSentence = fWordList[firstWordListIndexRandom]  # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
-    firstWordOfSentenceForSearching = firstWordOfSentence.lower()  # Set (firstWordOfSentenceForSearching) for searching to lowercase (.lower()) to match the actual list we need to search, which is all in lowercase
-    firstWordOfSentenceTupleIndexes = [x for x, y in enumerate(dbase) if y[0] == firstWordOfSentenceForSearching]  # Get the indexes of all of the tuples that contain the first word as the first word in their tuple and put those indices into (firstWordOfSentenceTupleIndexes)
-    firstWordOfSentenceTuples = []  # Initialize (firstWordOfSentenceTuples) as an empty list
-    for index in firstWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (firstWordOfSentenceTupleIndexes)
-        firstWordOfSentenceTuples.append(dbase[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
-    firstWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in firstWordOfSentenceTuples]  # Take out the first word (x[1:]) so it is a list of tuples of words that follow the previous word plus their integer weight and set to (firstWordOfSentenceTuplesMinusFirstWord)
-    if firstWordOfSentenceTuplesMinusFirstWord:
-        nxtWord = weightedChoice(firstWordOfSentenceTuplesMinusFirstWord)  # Grab the next word (nextWord) by weight using (weightedChoice) and passing it (firstWordOfSentenceTuplesMinusFirstWord)
-    else:
-        getFirstWord(fWordList, dbase)
-    return nxtWord
+    return firstWordOfSentence
 
 
 def getNextWord(nxtWord, dbase):
-    nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(dbase) if y[0] == nxtWord]  # Get the indexes of all of the tuples that contain the word as the first word in the tuple
-    nextWordOfSentenceTuples = []  # Initialize (nextWordOfSentenceTuples) as an empty list
-    for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
-        nextWordOfSentenceTuples.append(dbase[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
-    nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]
-    if nextWordOfSentenceTuplesMinusFirstWord:
-        nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
-    else:
-        nxtWord = getNextWord(nxtWord, dbase)
-    return nxtWord
+    if nxtWord:
+        nxtWord = str(nxtWord[0]).lower()
+        nextWordOfSentenceTupleIndexes = []
+        for x, y in enumerate(dbase):
+            print('nxtWord = ', nxtWord)
+            print('x = ', x)
+            print('y[0] = ', y[0])
+            print('y[1] = ', y[1])
+            print('y[2] = ', y[2])
+        if dbase:
+            nextWordOfSentenceTupleIndexes = [x for x, y in enumerate(dbase) if y[0] == nxtWord]
+        else:
+            print('dbase is empty')
+        if nextWordOfSentenceTupleIndexes:
+            nextWordOfSentenceTuples = []  # Initialize (nextWordOfSentenceTuples) as an empty list
+            for index in nextWordOfSentenceTupleIndexes:  # Loop through the indexes of those tuples (nextWordOfSentenceTupleIndexes)
+                nextWordOfSentenceTuples.append(dbase[index])  # Append the actual tuples (.append(database[index])) to (firstWordOfSentenceTuples)
+            nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]
+            if nextWordOfSentenceTuplesMinusFirstWord:
+                nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+            return nxtWord
+        else:
+            print('nextWordOfSentenceTupleIndexes is empty')
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
@@ -128,8 +131,7 @@ def weightedChoice(choices):  # (weightedChoice) Method for selecting a word opt
         i += 1
     probabilities = []
     for index, integer in enumerate(probability):  # Go through the list of punctuationToFixList and grab the indices and character
-        probabilityIndex = int(index)  # Turn the (index) into an integer type (int()) and assign it to (charIndex)
-        probabilities.append(probability[probabilityIndex] / probabilityTotal)
+        probabilities.append(probability[index] / probabilityTotal)
     result = choice(elements, 1, p=probabilities)
     return result
 # FIX THIS MESS
@@ -152,6 +154,9 @@ def parseTextTotal(textFile):
     containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)  # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
     global unorderedTupleList  # Global keyword to alter global variable
     unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
+    #print(unorderedTupleList)
+    with open('output.txt', 'r+') as outputFile:
+        print(str(unorderedTupleList), file=outputFile)
     return firstWordList, unorderedTupleList  # Return both the (firstWordList) and (unorderedTupleList)
 
 
@@ -161,7 +166,7 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
     sentence = ' '  # Initialize (sentence) to a string with one space in it
     # Sentence Loop
     while len(sentence) < minLengthOfSentence or len(sentence) > maxLengthOfSentence:  # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
-        firstWordOfSentence = str(getFirstWord(firstWords, database))
+        firstWordOfSentence = str(getFirstWord(firstWords))
         nextWord = ''  # Initialize (nextWord) to an empty string
         sentence = ''  # Set (sentence) to an empty string
         sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
@@ -169,21 +174,20 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
         nextWord = firstWordOfSentence
         # Next Word Loop
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
-            nextWord = getNextWord(nextWord, database)
-        sentence += nextWord  # Add the (nextWord) to the (sentence)
-        sentence += ' '  # Add a space character after the (nextWord) into (sentence)
+            nextWord = str(getNextWord(nextWord, database))
+            sentence += nextWord  # Add the (nextWord) to the (sentence)
+            sentence += ' '  # Add a space character after the (nextWord) into (sentence)
     punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'], [',', ':', ';', ')', '(', '"', '.', '!', '?']]  # A list of all the punctuation to be fixed in [0] and the text to replace them in [1] with the same indices, mostly getting rid of extra space characters
     for index, punctuation in enumerate(punctuationToFixList[0]):  # Go through the list of punctuationToFixList and grab the indices and character
-        punctuationIndex = int(index)  # Turn the (index) into an integer type (int()) and assign it to (charIndex)
-        sentence = sentence.replace(punctuationToFixList[0][punctuationIndex], punctuationToFixList[1][punctuationIndex])  # Go through the sentence and take values in [0] and replace them with values from [1] at the same indices
+        sentence = sentence.replace(punctuationToFixList[0][index], punctuationToFixList[1][index])  # Go through the sentence and take values in [0] and replace them with values from [1] at the same indices
     print(sentence)  # Print final (sentence) to console
 
 parseTextTotal('text.txt')  # Run the (parseTextTotal) Method and pass it ('text.txt')
 
-k = 0
-while k < 10:
-    createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
-    print(' ')
-    k += 1
+#k = 0
+#while k < 10:
+createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
+    #print(' ')
+    #k += 1
 
 # Pull more text from http://marx.eserver.org/
