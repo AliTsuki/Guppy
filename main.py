@@ -187,3 +187,5 @@ while k < 10:
     k += 1
 
 # Pull more text from http://marx.eserver.org/
+
+sys.exit()  # Exit the program (should be removed handled with error catcher etc.
