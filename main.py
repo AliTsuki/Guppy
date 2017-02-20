@@ -91,6 +91,16 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
+def getWordInSentenceCount(nxtWrd, sList):
+    sentencesIncludingNextWord = [s for s in sList if nxtWrd in s]
+    oftennessOfWordInSentences = len(sentencesIncludingNextWord)
+    return oftennessOfWordInSentences
+    
+    
+def getWordInSentenceRate(nxWd, sLst):
+    print(nxWd)
+
+
 def getFirstWord(fWordList):  # (getFirstWord) Method that grabs a first word from (fWordList) and returns it as (firstWordOfSentence)
     firstWordListIndexRandom = int(random.uniform(0, len(fWordList)))  # Randomly select an index from 0 through the length of firstWordList (int(random.uniform(0, len(firstWords)))) and set to (firstWordListIndexRandom) which will be the index for the first word we will use
     firstWordOfSentence = fWordList[firstWordListIndexRandom]  # Set (firstWordOfSentence) to the actual word at the random index from above (firstWords[firstWordListIndexRandom])
@@ -118,6 +128,8 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
+    getWordInSentenceCount(nxtWord, sentenceList)
+    getWordInSentenceRate(nxtWord, sentenceList)
     elements = [i[0] for i in choices]  # Set (elements) to all of the (i[0]) of (choices)
     probability = [i[1] for i in choices]  # Set (probability) to the (i[1]) of (choices)
     probabilityTotal = 0  # Initialize (probabilityTotal) to 0
@@ -157,8 +169,7 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
     maxLengthOfSentence = 140  # Initialize the maximum length of (sentence) in characters (maxLengthOfSentence) to a specific integer length of characters (140)
     sentence = ' '  # Initialize (sentence) to a string with one space in it
     # Sentence Loop
-    while len(sentence) < minLengthOfSentence or len(
-            sentence) > maxLengthOfSentence:  # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
+    while len(sentence) < minLengthOfSentence or len(sentence) > maxLengthOfSentence:  # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
         firstWordOfSentence = str(getFirstWord(firstWords))
         nextWord = ''  # Initialize (nextWord) to an empty string
         sentence = ''  # Set (sentence) to an empty string
