@@ -114,7 +114,7 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
             nxtWord = str(nxtWord[0])  # Set (nxtWord) to the stringified first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
         else:  # If not
-            sys.exit()  # Exit the program (should be removed handled with error catcher etc.
+            print('Abandon Hope, All Ye Who Enter Here') # Exit the program (should be removed handled with error catcher etc.
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
@@ -187,5 +187,7 @@ while k < 10:
     k += 1
 
 # Pull more text from http://marx.eserver.org/
+# 1. Go through word list, check sentence list for word, create list of sentences that include word, count them, exclude punctuation use oftenness of word in word choice probablility algorithm.
+# 2. Go through word list, check sentence list for word, create a list of all of the other words in the sentence, count each word to get rate of how often the two words appear in a sentence together not just next to eachother.
 
 sys.exit()  # Exit the program (should be removed handled with error catcher etc.
