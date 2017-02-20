@@ -17,8 +17,7 @@ unorderedTupleList = []
 
 
 # Main file functions
-def parseIntoRawText(
-        textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
+def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
     with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, give read and write permissions, read as utf8 encoded, and create a data stream of all the data
         rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
     rawData.close()  # Close the data stream so it can be cleaned from memory
@@ -37,8 +36,7 @@ def parseIntoRawText(
 
 def parseIntoSentenceList(rawTextForSentences):  # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
     regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Compile regex pattern for grabbing everything before a sentence [A-Z] ending in a punctuation mark [.!?]
-    sentenceListFromMethod = regexPattern.findall(
-        rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
+    sentenceListFromMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
     sentenceListFromMethod = list(filter(None, sentenceListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (sentenceListFromMethod) and reassign changes to (sentenceListFromMethod)
     return sentenceListFromMethod  # Return the list of sentences in the text as (sentenceListFromMethod)
 
