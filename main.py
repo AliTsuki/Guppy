@@ -93,10 +93,12 @@ def getWordInSentenceCount(nxtWrd, sList):
     sentencesIncludingNextWord = [s for s in sList if nxtWrd in s]
     oftennessOfWordInSentences = len(sentencesIncludingNextWord)
     return oftennessOfWordInSentences
+    # Make this somehow applicable in weightedChoice()
     
     
 def getWordInSentenceRate(nxWd, sLst):
-    print(nxWd)
+    done = False
+    # Make a method that makes a list of how often 2 words appear in a sentence, will need to restructure and have this called during Text Parsing, and then have the values accessed during weightedChoice()
 
 
 def getFirstWord(fWordList):  # (getFirstWord) Method that grabs a first word from (fWordList) and returns it as (firstWordOfSentence)
@@ -118,16 +120,16 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
                 nextWordOfSentenceTuples.append(dbase[indices])  # Append the actual tuples (.append(dbase[indices])) to (nextWordOfSentenceTuples)
             nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Set (nextWordOfSentenceTuplesMinusFirstWord to a list of tuples consisting of the [1] and [2] values of the tuple
             if nextWordOfSentenceTuplesMinusFirstWord:  # If nextWordOfSentenceTuplesMinusFirstWord contains data do below
-                nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+                nxtWord = weightedChoice(nxtWord, nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
             nxtWord = str(nxtWord[0])  # Set (nxtWord) to the stringified first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
         else:  # If not
             print('Abandon Hope, All Ye Who Enter Here') # Exit the program (should be removed handled with error catcher etc.
 
 
-def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
-    getWordInSentenceCount(nxtWord, sentenceList)
-    getWordInSentenceRate(nxtWord, sentenceList)
+def weightedChoice(nxtWrd, choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
+    getWordInSentenceCount(nxtWrd, sentenceList)
+    getWordInSentenceRate(nxtWrd, sentenceList)
     elements = [i[0] for i in choices]  # Set (elements) to all of the (i[0]) of (choices)
     probability = [i[1] for i in choices]  # Set (probability) to the (i[1]) of (choices)
     probabilityTotal = 0  # Initialize (probabilityTotal) to 0
