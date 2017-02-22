@@ -97,16 +97,16 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
-def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
-    for word in wordListForSentenceCount:
+#def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
+    #for word in wordListForSentenceCount:
         
-    return 
+    #return 
     # CHANGE THIS TO CREATE A DICT WHERE KEY IS EVERY WORD IN WORD LIST AND VALUE IS THE NUMBER OF SENTENCES THAT WORD APPEARS IN AND USE IN INITIAL PARSING
 
 
-def getWordsInSentenceRate(wLst, sLst):
-    for wrd in wLst:
-        sentencesIncludingWord = [s for s in sLst if wrd in s]
+#def getWordsInSentenceRate(wLst, sLst):
+    #for wrd in wLst:
+        #sentencesIncludingWord = [s for s in sLst if wrd in s]
         #while 
         #for index, w in enumerate(sentencesIncludingWord):
             
@@ -122,7 +122,7 @@ def getFirstWord(fWordList):  # (getFirstWord) Method that grabs a first word fr
 def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best next word when passed (nxtWord) and (dbase)
     nextWordOfSentenceTupleIndexes = []  # Initialize the (nextWordOfSentenceTupleIndexes) as empty list
     if nxtWord and dbase:  # If (nxt) and (dbase) both contain information, do the below
-        nxtWord = str(nxtWord).lower()  # (Set nxtWord to stringified (nxtWord) made lowercase
+        nxtWord = nxtWord.lower()  # (Set nxtWord to stringified (nxtWord) made lowercase
         for x, y in enumerate(dbase):  # Enumerate through (dbase) and grab both (x) and (y) values
             if y[0] == nxtWord:  # If the first word of the word tuple grabbed from (dbase) is equal to current (nxtWord) do below
                 nextWordOfSentenceTupleIndexes.append(x)  # Append the index values from (x) to (nexWordOfSentenceTupleIndexes)
@@ -133,7 +133,7 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
             nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Set (nextWordOfSentenceTuplesMinusFirstWord to a list of tuples consisting of the [1] and [2] values of the tuple
             if nextWordOfSentenceTuplesMinusFirstWord:  # If nextWordOfSentenceTuplesMinusFirstWord contains data do below
                 nxtWord = weightedChoice(nxtWord, nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
-            nxtWord = str(nxtWord[0])  # Set (nxtWord) to the stringified first value in the (nxtWord) list, there is only one value
+            nxtWord = nxtWord[0]  # Set (nxtWord) to the stringified first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
         else:  # If not
             print('Abandon Hope, All Ye Who Enter Here') # Exit the program (should be removed handled with error catcher etc.
@@ -182,7 +182,7 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
     sentence = ' '  # Initialize (sentence) to a string with one space in it
     # Sentence Loop
     while len(sentence) < minLengthOfSentence or len(sentence) > maxLengthOfSentence:  # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
-        firstWordOfSentence = str(getFirstWord(firstWords))
+        firstWordOfSentence = getFirstWord(firstWords)
         nextWord = ''  # Initialize (nextWord) to an empty string
         sentence = ''  # Set (sentence) to an empty string
         sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
@@ -190,7 +190,7 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
         nextWord = firstWordOfSentence.lower()  # Set (nextWord) to the lowercase of (firstWordOfSentence)
         # Next Word Loop
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
-            nextWord = str(getNextWord(nextWord, database))  # Set (nextWord) to the string of (getNextWord) by passing it (nextWord) and (database)
+            nextWord = getNextWord(nextWord, database)  # Set (nextWord) to the string of (getNextWord) by passing it (nextWord) and (database)
             sentence += nextWord  # Add the (nextWord) to the (sentence)
             sentence += ' '  # Add a space character after the (nextWord) into (sentence)
     punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'],
