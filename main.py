@@ -97,11 +97,12 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
-def getWordInSentenceCount(nxtWrd, sList):    # (getWordInSentenceCount) Method is passed (nxtWrd) and (sList) and returns the number of sentences (nxtWrd) appears in
-    sentencesIncludingNextWord = [s for s in sList if nxtWrd in s]    # Set (sentencesIncludingNextWord) to a list containing all of the sentences containing (nxtWrd)
-    oftennessOfWordInSentences = len(sentencesIncludingNextWord)    # Set (oftennessOfWordInSentences) to the number of sentences in the list
-    return oftennessOfWordInSentences    # Return the number of sentences the next word appears in as (oftennessOfWordInSentences)
+def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
+    for word in wordListForSentenceCount:
+        
+    return 
     # CHANGE THIS TO CREATE A DICT WHERE KEY IS EVERY WORD IN WORD LIST AND VALUE IS THE NUMBER OF SENTENCES THAT WORD APPEARS IN AND USE IN INITIAL PARSING
+
 
 def getWordsInSentenceRate(wLst, sLst):
     for wrd in wLst:
