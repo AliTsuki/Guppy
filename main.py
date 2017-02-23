@@ -101,28 +101,28 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
 
 
 def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
-    wordInSentencesCountContainedListFromMethod = []
+    wordInSentencesCountListFromMethod = []
     for word in wordListForSentenceCount:
         for sntnc in sentenceListForSentenceCount:
             tempSentencesWithWords = sntnc.split(' ')
             tempSentencesWithWords = list(filter(None, tempSentencesWithWords))
             for w in tempSentencesWithWords:
-                wordInSentencesCountContainedListFromMethod.append(word)
-                wordInSentencesCountContainedListFromMethod.append(w)
-    nxt = iter(wordInSentencesCountContainedListFromMethod)
+                wordInSentencesCountListFromMethod.append(word)
+                wordInSentencesCountListFromMethod.append(w)
+    nxt = iter(wordInSentencesCountListFromMethod)
     next(nxt, None)
-    wordInSentencesCountDictFromMethod = (Counter(zip(wordInSentencesCountContainedListFromMethod, nxt)).items())
-    wordInSentencesCountListFromMethod = []
+    wordInSentencesCountDictFromMethod = (Counter(zip(wordInSentencesCountListFromMethod, nxt)).items())
+    wordInSentencesCountListFromMethodTuples = []
     for key, value in wordInSentencesCountDictFromMethod:
-        wordInSentencesCountListFromMethod.append(key)
-        wordInSentencesCountListFromMethod.append(value)
+        wordInSentencesCountListFromMethodTuples.append(key)
+        wordInSentencesCountListFromMethodTuples.append(value)
     wordInSentencesContainedCountListFromMethod = []
     count = 0
-    while count < len(wordInSentencesCountListFromMethod):
-        wTuple = wordInSentencesCountListFromMethod[count]
+    while count < len(wordInSentencesCountListFromMethodTuples):
+        wTuple = wordInSentencesCountListFromMethodTuples[count]
         firstTupleWrd = wTuple[0]
         secondTupleWrd = wTuple[1]
-        integrCount = wordInSentencesCountListFromMethod[count + 1]
+        integrCount = wordInSentencesCountListFromMethodTuples[count + 1]
         wordInSentencesContainedCountListFromMethod.append(firstTupleWrd)
         wordInSentencesContainedCountListFromMethod.append(secondTupleWrd)
         wordInSentencesContainedCountListFromMethod.append(integrCount)
