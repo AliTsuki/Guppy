@@ -1,3 +1,5 @@
+# This is Guppy, it will soon take over the world
+
 # Imports
 import re  # Import for regex expression below
 from collections import Counter  # Import Counter from collections for Counter call below, for counting...
@@ -13,13 +15,14 @@ firstWordList = []
 lowercaseWordList = []
 unorderedWordDoubleDict = {}
 unorderedWordList = []
+containedWordInSentencesCountList = []
 containedUnorderedWordList = []
 unorderedTupleList = []
 
 
 # Main file functions
 def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
-    with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, give read and write permissions, read as utf8 encoded, and create a data stream of all the data
+    with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, give read and write permissions, read as utf8 encoded, and create a data stream of all the data (rawData)
         rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
     rawData.close()  # Close the data stream so it can be cleaned from memory
     replacementTextToText = [
@@ -52,7 +55,7 @@ def parseIntoLowercaseSentenceList(sentenceListForLowercase):    # (parseIntoLow
 def parseIntoFirstWordList(sentenceListForFirstWord):  # (parseIntoFirstWordList) Method that takes a list of sentences (sentenceListForFirstWord) and turns it into a list of all the first words of those sentences (firstWordListFromMethod)
     firstWordListFromMethod = []  # Initialize the empty list for the first word in each sentence (firstWordListFromMethod)
     for index, firstWord in enumerate(sentenceListForFirstWord):  # Enumerate through the (sentenceListForFirstWord) and grab the (index) and the (firstWord)
-        firstWord = sentenceListForFirstWord[index].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceList[index]) using the index to find each sentences (firstWord)
+        firstWord = sentenceListForFirstWord[index].split(' ')[0]  # Use split to only grab the first word (.split(' ')[0]) in each sentence (sentenceListForFirstWord[index]) using the index to find each sentences (firstWord)
         firstWordListFromMethod.append(firstWord)  # Append each sentence starting word (firstWord) to (firstWordListFromMethod) from the (sentenceListForFirstWord)
     firstWordListFromMethod = list(filter(None, firstWordListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (firstWordListFromMethod) and reassign changes to (firstWordListFromMethod)
     return firstWordListFromMethod  # Return the list of first words of sentences as (firstWordListFromMethod)
@@ -101,8 +104,9 @@ def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCo
     wordInSentencesCountContainedListFromMethod = []
     for word in wordListForSentenceCount:
         for sntnc in sentenceListForSentenceCount:
-            tempSentenceWithSWords = sntnc.split(' ')
-            for w in tempSentenceWithSWords:
+            tempSentencesWithWords = sntnc.split(' ')
+            tempSentencesWithWords = list(filter(None, tempSentencesWithWords))
+            for w in tempSentencesWithWords:
                 wordInSentencesCountContainedListFromMethod.append(word)
                 wordInSentencesCountContainedListFromMethod.append(w)
     nxt = iter(wordInSentencesCountContainedListFromMethod)
@@ -112,7 +116,18 @@ def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCo
     for key, value in wordInSentencesCountDictFromMethod:
         wordInSentencesCountListFromMethod.append(key)
         wordInSentencesCountListFromMethod.append(value)
-    return wordInSentencesCountListFromMethod
+    wordInSentencesContainedCountListFromMethod = []
+    count = 0
+    while count < len(wordInSentencesCountListFromMethod):
+        wTuple = wordInSentencesCountListFromMethod[count]
+        firstTupleWrd = wTuple[0]
+        secondTupleWrd = wTuple[1]
+        integrCount = wordInSentencesCountListFromMethod[count + 1]
+        wordInSentencesContainedCountListFromMethod.append(firstTupleWrd)
+        wordInSentencesContainedCountListFromMethod.append(secondTupleWrd)
+        wordInSentencesContainedCountListFromMethod.append(integrCount)
+        count += 2
+    return wordInSentencesContainedCountListFromMethod
 
 
 #def getWordsInSentenceRate(wLst, sLst):
@@ -132,25 +147,25 @@ def getFirstWord(fWordList):  # (getFirstWord) Method that grabs a first word fr
 
 def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best next word when passed (nxtWord) and (dbase)
     nextWordOfSentenceTupleIndexes = []  # Initialize the (nextWordOfSentenceTupleIndexes) as empty list
-    if nxtWord and dbase:  # If (nxt) and (dbase) both contain information, do the below
-        nxtWord = nxtWord.lower()  # (Set nxtWord to stringified (nxtWord) made lowercase
+    if nxtWord and dbase:  # If (nxtWord) and (dbase) both contain information, do the below
+        nxtWord = nxtWord.lower()  # Set (nxtWord) to (nxtWord) made lowercase
         for x, y in enumerate(dbase):  # Enumerate through (dbase) and grab both (x) and (y) values
             if y[0] == nxtWord:  # If the first word of the word tuple grabbed from (dbase) is equal to current (nxtWord) do below
                 nextWordOfSentenceTupleIndexes.append(x)  # Append the index values from (x) to (nexWordOfSentenceTupleIndexes)
-        if nextWordOfSentenceTupleIndexes:  # If (nextWordOfSentenceTupleIndexes has data do below
+        if nextWordOfSentenceTupleIndexes:  # If (nextWordOfSentenceTupleIndexes) has data do below
             nextWordOfSentenceTuples = []  # Initialize (nextWordOfSentenceTuples) as an empty list
             for indices in nextWordOfSentenceTupleIndexes:  # Loop through the indices of those tuples (nextWordOfSentenceTupleIndexes)
                 nextWordOfSentenceTuples.append(dbase[indices])  # Append the actual tuples (.append(dbase[indices])) to (nextWordOfSentenceTuples)
-            nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Set (nextWordOfSentenceTuplesMinusFirstWord to a list of tuples consisting of the [1] and [2] values of the tuple
-            if nextWordOfSentenceTuplesMinusFirstWord:  # If nextWordOfSentenceTuplesMinusFirstWord contains data do below
-                nxtWord = weightedChoice(nxtWord, nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
-            nxtWord = nxtWord[0]  # Set (nxtWord) to the stringified first value in the (nxtWord) list, there is only one value
+            nextWordOfSentenceTuplesMinusFirstWord = [x[1:] for x in nextWordOfSentenceTuples]  # Set (nextWordOfSentenceTuplesMinusFirstWord) to a list of tuples consisting of the [1] and [2] values of the tuple
+            if nextWordOfSentenceTuplesMinusFirstWord:  # If (nextWordOfSentenceTuplesMinusFirstWord) contains data do below
+                nxtWord = weightedChoice(nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
+            nxtWord = nxtWord[0]  # Set (nxtWord) to the first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
         else:  # If not do below
-            print('Abandon Hope, All Ye Who Enter Here') # Exit the program (should be removed handled with error catcher etc.
+            print('Abandon Hope, All Ye Who Enter Here') # Print a statement letting you know you have broken everything and you suck
 
 
-def weightedChoice(nxtWrd, choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
+def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
     elements = [i[0] for i in choices]  # Set (elements) to all of the (i[0]) of (choices)
     probability = [i[1] for i in choices]  # Set (probability) to the (i[1]) of (choices)
     probabilityTotal = 0  # Initialize (probabilityTotal) to 0
@@ -182,8 +197,8 @@ def parseTextTotal(textFile):  # (parseTextTotal) Method that parses all of the 
     unorderedWordList = parseIntoUnorderedWordList(unorderedWordDoubleDict)  # Set (unorderedWordList) to the value returned by passing (unorderedWordDoubleDict) to (parseIntoUnorderedWordList) Method
     global containedUnorderedWordList  # Global keyword to alter global variable
     containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)  # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
-    global containedWordInSentencesCountList
-    containedWordInSentencesCountList = parseWordInSentenceCount(lowercaseWordList, lowercaseSentenceList)
+    global containedWordInSentencesCountList  # Global keyword to alter global variable
+    containedWordInSentencesCountList = parseWordInSentenceCount(lowercaseWordList, lowercaseSentenceList)  # Set (containedWordInSentencesCountList) to the list returned by passing (parseWordInSentenceCount) the values of (lowercaseWordList) and (lowercaseSentenceList)
     global unorderedTupleList  # Global keyword to alter global variable
     unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
     return firstWordList, unorderedTupleList  # Return both the (firstWordList) and (unorderedTupleList)
@@ -216,14 +231,14 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
 
 parseTextTotal('text.txt')  # Run the (parseTextTotal) Method and pass it ('text.txt')
 
-k = 0
-while k < 10:
+k = 0    # Initialize (k) to 0
+while k < 10:    # Loop through (k) 10 times
     createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
-    print(' ')
-    k += 1
+    print(' ')    # Print an empty line
+    k += 1    # Add 1 to (k)
 
 # Pull more text from http://marx.eserver.org/
 # 1. Go through word list, check sentence list for word, create list of sentences that include word, count them, exclude punctuation use oftenness of word in word choice probablility algorithm.
 # 2. Go through word list, check sentence list for word, create a list of all of the other words in the sentence, count each word to get rate of how often the two words appear in a sentence together not just next to eachother.
 
-sys.exit()  # Exit the program (should be removed handled with error catcher etc.
+sys.exit()  # Exit the program (should be removed handled with error catcher etc.)
