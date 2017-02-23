@@ -97,11 +97,22 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
-#def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
-    #for word in wordListForSentenceCount:
-        
-    #return 
-    # CHANGE THIS TO CREATE A DICT WHERE KEY IS EVERY WORD IN WORD LIST AND VALUE IS THE NUMBER OF SENTENCES THAT WORD APPEARS IN AND USE IN INITIAL PARSING
+def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
+    wordInSentencesCountContainedListFromMethod = []
+    for word in wordListForSentenceCount:
+        for sntnc in sentenceListForSentenceCount:
+            tempSentenceWithSWords = sntnc.split(' ')
+            for w in tempSentenceWithSWords:
+                wordInSentencesCountContainedListFromMethod.append(word)
+                wordInSentencesCountContainedListFromMethod.append(w)
+    nxt = iter(wordInSentencesCountContainedListFromMethod)
+    next(nxt, None)
+    wordInSentencesCountDictFromMethod = (Counter(zip(wordInSentencesCountContainedListFromMethod, nxt)).items())
+    wordInSentencesCountListFromMethod = []
+    for key, value in wordInSentencesCountDictFromMethod:
+        wordInSentencesCountListFromMethod.append(key)
+        wordInSentencesCountListFromMethod.append(value)
+    return wordInSentencesCountListFromMethod
 
 
 #def getWordsInSentenceRate(wLst, sLst):
@@ -135,7 +146,7 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
                 nxtWord = weightedChoice(nxtWord, nextWordOfSentenceTuplesMinusFirstWord)  # Get the (nextWord) by doing a (weightedChoice) and passing it (nextWordOfSentenceTuplesMinusFirstWord)
             nxtWord = nxtWord[0]  # Set (nxtWord) to the stringified first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
-        else:  # If not
+        else:  # If not do below
             print('Abandon Hope, All Ye Who Enter Here') # Exit the program (should be removed handled with error catcher etc.
 
 
@@ -171,6 +182,8 @@ def parseTextTotal(textFile):  # (parseTextTotal) Method that parses all of the 
     unorderedWordList = parseIntoUnorderedWordList(unorderedWordDoubleDict)  # Set (unorderedWordList) to the value returned by passing (unorderedWordDoubleDict) to (parseIntoUnorderedWordList) Method
     global containedUnorderedWordList  # Global keyword to alter global variable
     containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)  # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
+    global containedWordInSentencesCountList
+    containedWordInSentencesCountList = parseWordInSentenceCount(lowercaseWordList, lowercaseSentenceList)
     global unorderedTupleList  # Global keyword to alter global variable
     unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
     return firstWordList, unorderedTupleList  # Return both the (firstWordList) and (unorderedTupleList)
