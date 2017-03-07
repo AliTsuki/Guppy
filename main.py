@@ -45,13 +45,13 @@ def parseIntoSentenceList(rawTextForSentences):  # (parseIntoSentenceList) Metho
     return sentenceListFromMethod  # Return the list of sentences in the text as (sentenceListFromMethod)
 
 
-def parseIntoLowercaseSentenceList(sentenceListForLowercase):    # (parseIntoLowercaseSentenceList) Method takes a list of sentences (sentenceListForLowercase) and makes a list of those same sentences but in lowercase and returns it as (lowercaseSentenceListFromMethod)
-    lowercaseSentenceListFromMethod = []    # Initialize (lowercaseSentenceListFromMethod) to contain lowercase sentences
-    for sntnce in sentenceListForLowercase:    # For each sentence (sntnce) in (sentenceListForLowercase) do below
-        lowercaseSentenceListFromMethod.append(sntnce.lower())    # Append the lowercase (.lower()) version of the sentence (sntnce) to the list (lowercaseSentenceListFromMethod)
-    return lowercaseSentenceListFromMethod    # Return the list of lowercase sentences as (lowercaseSentenceListFromMethod)
-    
-    
+def parseIntoLowercaseSentenceList(sentenceListForLowercase):  # (parseIntoLowercaseSentenceList) Method takes a list of sentences (sentenceListForLowercase) and makes a list of those same sentences but in lowercase and returns it as (lowercaseSentenceListFromMethod)
+    lowercaseSentenceListFromMethod = []  # Initialize (lowercaseSentenceListFromMethod) to contain lowercase sentences
+    for sntnce in sentenceListForLowercase:  # For each sentence (sntnce) in (sentenceListForLowercase) do below
+        lowercaseSentenceListFromMethod.append(sntnce.lower())  # Append the lowercase (.lower()) version of the sentence (sntnce) to the list (lowercaseSentenceListFromMethod)
+    return lowercaseSentenceListFromMethod  # Return the list of lowercase sentences as (lowercaseSentenceListFromMethod)
+
+
 def parseIntoFirstWordList(sentenceListForFirstWord):  # (parseIntoFirstWordList) Method that takes a list of sentences (sentenceListForFirstWord) and turns it into a list of all the first words of those sentences (firstWordListFromMethod)
     firstWordListFromMethod = []  # Initialize the empty list for the first word in each sentence (firstWordListFromMethod)
     for index, firstWord in enumerate(sentenceListForFirstWord):  # Enumerate through the (sentenceListForFirstWord) and grab the (index) and the (firstWord)
@@ -92,7 +92,7 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
         wordTuple = unorderedWordListForContainment[count]  # Grab the tuple (wordTuple) located at current (count) index of (unorderedWordListForContainment)
         firstTupleWord = wordTuple[0]  # Grab the first word (firstTupleWord) of the grabbed tuple (wordTuple[0])
         secondTupleWord = wordTuple[1]  # Grab the second word (secondTupleWord) of the grabbed tuple (wordTuple[1])
-        integerCount = unorderedWordListForContainment[count + 1]    # Grab the integer count (integerCount) of the grabbed tuple (unorderedWordListForContainment[count + 1])
+        integerCount = unorderedWordListForContainment[count + 1]  # Grab the integer count (integerCount) of the grabbed tuple (unorderedWordListForContainment[count + 1])
         containedUnorderedWordListFromMethod.append(firstTupleWord)  # Append the first word (.append(firstTupleWord) to (containedUnorderedWordListFromMethod)
         containedUnorderedWordListFromMethod.append(secondTupleWord)  # Append the second word (.append(secondTupleWord) to (containedUnorderedWordListFromMethod)
         containedUnorderedWordListFromMethod.append(integerCount)  # Append the integer (.append(integerCount)) to (containedUnorderedWordListForMethod)
@@ -130,13 +130,13 @@ def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCo
     return wordInSentencesContainedCountListFromMethod
 
 
-#def getWordsInSentenceRate(wLst, sLst):
-    #for wrd in wLst:
-        #sentencesIncludingWord = [s for s in sLst if wrd in s]
-        #while 
-        #for index, w in enumerate(sentencesIncludingWord):
-            
-    # Make a method that makes a list of how often 2 words appear in a sentence, will need to restructure and have this called during Text Parsing, and then have the values accessed during weightedChoice()
+# def getWordsInSentenceRate(wLst, sLst):
+# for wrd in wLst:
+# sentencesIncludingWord = [s for s in sLst if wrd in s]
+# while
+# for index, w in enumerate(sentencesIncludingWord):
+
+# Make a method that makes a list of how often 2 words appear in a sentence, will need to restructure and have this called during Text Parsing, and then have the values accessed during weightedChoice()
 
 
 def getFirstWord(fWordList):  # (getFirstWord) Method that grabs a first word from (fWordList) and returns it as (firstWordOfSentence)
@@ -162,7 +162,8 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
             nxtWord = nxtWord[0]  # Set (nxtWord) to the first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
         else:  # If not do below
-            print('Abandon Hope, All Ye Who Enter Here') # Print a statement letting you know you have broken everything and you suck
+            print(
+                'Abandon Hope, All Ye Who Enter Here')  # Print a statement letting you know you have broken everything and you suck
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
@@ -231,11 +232,11 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
 
 parseTextTotal('text.txt')  # Run the (parseTextTotal) Method and pass it ('text.txt')
 
-k = 0    # Initialize (k) to 0
-while k < 10:    # Loop through (k) 10 times
+k = 0  # Initialize (k) to 0
+while k < 10:  # Loop through (k) 10 times
     createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
-    print(' ')    # Print an empty line
-    k += 1    # Add 1 to (k)
+    print(' ')  # Print an empty line
+    k += 1  # Add 1 to (k)
 
 # Pull more text from http://marx.eserver.org/
 # 1. Go through word list, check sentence list for word, create list of sentences that include word, count them, exclude punctuation use oftenness of word in word choice probablility algorithm.
