@@ -1,11 +1,13 @@
 # This is Guppy, it will soon take over the world
 
+
 # Imports
 import re  # Import for regex expression below
 from collections import Counter  # Import Counter from collections for Counter call below, for counting...
 import random  # Import random for doing random functions below
 from numpy.random import choice  # Import numpy for numerical python operations
 import sys  # Import sys for exit statement below
+
 
 # Globals and Initializations
 rawText = ''
@@ -22,7 +24,7 @@ unorderedTupleList = []
 
 # Main file functions
 def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a text file (textDatabase) will turn it into a string (rawTextFromMethod)
-    with open(textDatabase, 'r+', encoding='utf8') as rawData:  # Open text file, give read and write permissions, read as utf8 encoded, and create a data stream of all the data (rawData)
+    with open(textDatabase, 'r+', encoding = 'utf8') as rawData:  # Open text file, give read and write permissions, read as utf8 encoded, and create a data stream of all the data (rawData)
         rawTextFromMethod = rawData.read()  # Create a (rawTextFromMethod) and assign it the entire string from the data stream of all data (rawData.read())
     rawData.close()  # Close the data stream so it can be cleaned from memory
     replacementTextToText = [
@@ -41,7 +43,7 @@ def parseIntoRawText(textDatabase):  # (parseIntoRawText) Method when passed a t
 def parseIntoSentenceList(rawTextForSentences):  # (parseIntoSentenceList) Method when passed text string (rawTextForSentences) turns it into a list of sentences (sentenceListFromMethod)
     regexPattern = re.compile(r'([A-Z][^.!?]*[.!?])', re.M)  # Compile regex pattern for grabbing everything before a sentence [A-Z] ending in a punctuation mark [.!?]
     sentenceListFromMethod = regexPattern.findall(rawTextForSentences)  # Apply regex pattern to the raw text string (rawTextForSentences) to create a list of all the sentences in the text and store in (sentenceListFromMethod)
-    sentenceListFromMethod = list(filter(None, sentenceListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (sentenceListFromMethod) and reassign changes to (sentenceListFromMethod)
+    sentenceListFromMethod = list(filter(None,sentenceListFromMethod))  # Use filter to get rid of empty strings in the list (None) in (sentenceListFromMethod) and reassign changes to (sentenceListFromMethod)
     return sentenceListFromMethod  # Return the list of sentences in the text as (sentenceListFromMethod)
 
 
@@ -100,41 +102,41 @@ def parseIntoContainedUnorderedWordList(unorderedWordListForContainment):  # (pa
     return containedUnorderedWordListFromMethod  # Return the list that contains all of (firstTupleWord), (secondTupleWord), (integerCount), for each tuple as a list (containedUnorderedWordListFromMethod)
 
 
-#def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
-    #wordInSentencesCountListFromMethod = []
-    #for word in wordListForSentenceCount:
-        #for sntnc in sentenceListForSentenceCount:
-            #tempSentencesWithWords = sntnc.split(' ')
-            #tempSentencesWithWords = list(filter(None, tempSentencesWithWords))
-            #for w in tempSentencesWithWords:
-                #wordInSentencesCountListFromMethod.append(word)
-                #wordInSentencesCountListFromMethod.append(w)
-    #nxt = iter(wordInSentencesCountListFromMethod)
-    #next(nxt, None)
-    #wordInSentencesCountDictFromMethod = (Counter(zip(wordInSentencesCountListFromMethod, nxt)).items())
-    #wordInSentencesCountListFromMethodTuples = []
-    #for key, value in wordInSentencesCountDictFromMethod:
-        #wordInSentencesCountListFromMethodTuples.append(key)
-        #wordInSentencesCountListFromMethodTuples.append(value)
-    #wordInSentencesContainedCountListFromMethod = []
-    #count = 0
-    #while count < len(wordInSentencesCountListFromMethodTuples):
-        #wTuple = wordInSentencesCountListFromMethodTuples[count]
-        #firstTupleWrd = wTuple[0]
-        #secondTupleWrd = wTuple[1]
-        #integrCount = wordInSentencesCountListFromMethodTuples[count + 1]
-        #wordInSentencesContainedCountListFromMethod.append(firstTupleWrd)
-        #wordInSentencesContainedCountListFromMethod.append(secondTupleWrd)
-        #wordInSentencesContainedCountListFromMethod.append(integrCount)
-        #count += 2
-    #return wordInSentencesContainedCountListFromMethod
+# def parseWordInSentenceCount(wordListForSentenceCount, sentenceListForSentenceCount):
+#   wordInSentencesCountListFromMethod = []
+#   for word in wordListForSentenceCount:
+#       for sntnc in sentenceListForSentenceCount:
+#           tempSentencesWithWords = sntnc.split(' ')
+#           tempSentencesWithWords = list(filter(None, tempSentencesWithWords))
+#               for w in tempSentencesWithWords:
+#                   wordInSentencesCountListFromMethod.append(word)
+#                   wordInSentencesCountListFromMethod.append(w)
+#                   nxt = iter(wordInSentencesCountListFromMethod)
+#                   next(nxt, None)
+#               wordInSentencesCountDictFromMethod = (Counter(zip(wordInSentencesCountListFromMethod, nxt)).items())
+#   wordInSentencesCountListFromMethodTuples = []
+#       for key, value in wordInSentencesCountDictFromMethod:
+#           wordInSentencesCountListFromMethodTuples.append(key)
+#           wordInSentencesCountListFromMethodTuples.append(value)
+#           wordInSentencesContainedCountListFromMethod = []
+#   count = 0
+#   while count < len(wordInSentencesCountListFromMethodTuples):
+#       wTuple = wordInSentencesCountListFromMethodTuples[count]
+#       firstTupleWrd = wTuple[0]
+#       secondTupleWrd = wTuple[1]
+#       integrCount = wordInSentencesCountListFromMethodTuples[count + 1]
+#       wordInSentencesContainedCountListFromMethod.append(firstTupleWrd)
+#       wordInSentencesContainedCountListFromMethod.append(secondTupleWrd)
+#       wordInSentencesContainedCountListFromMethod.append(integrCount)
+#       count += 2
+#   return wordInSentencesContainedCountListFromMethod
 
 
 # def getWordsInSentenceRate(wLst, sLst):
-# for wrd in wLst:
-# sentencesIncludingWord = [s for s in sLst if wrd in s]
-# while
-# for index, w in enumerate(sentencesIncludingWord):
+#   for wrd in wLst:
+#       sentencesIncludingWord = [s for s in sLst if wrd in s]
+#   while
+#       for index, w in enumerate(sentencesIncludingWord):
 # Make a method that makes a list of how often 2 words appear in a sentence, will need to restructure and have this called during Text Parsing, and then have the values accessed during weightedChoice()
 
 
@@ -161,7 +163,8 @@ def getNextWord(nxtWord, dbase):  # (getNextWord) Method that chooses the best n
             nxtWord = nxtWord[0]  # Set (nxtWord) to the first value in the (nxtWord) list, there is only one value
             return nxtWord  # Return the string (nxtWord)
         else:  # If not do below
-            print('Abandon Hope, All Ye Who Enter Here')  # Print a statement letting you know you have broken everything and you suck
+            print(
+                'Abandon Hope, All Ye Who Enter Here')  # Print a statement letting you know you have broken everything and you suck
 
 
 def weightedChoice(choices):  # (weightedChoice) Method for selecting a word option at random with a weight applied from what is passed as (choices), (choices) must currently be a list containing tuples of 2 with a word as index 0 and integer as index 1 of the tuples
@@ -175,7 +178,7 @@ def weightedChoice(choices):  # (weightedChoice) Method for selecting a word opt
     probabilities = []  # Initialize (probabilities) to an empty list
     for index, integer in enumerate(probability):  # Enumerate through (probability) and grab the (index) and (integer)
         probabilities.append(probability[index] / probabilityTotal)  # Append (probability[index]) divided by (probabilityTotal) getting the probability percent to probabilities
-    result = choice(elements, 1, p=probabilities)  # Set (result) to return of (choice()) that is passed the list of (elements), grab 1 element, use (probabilities) as percent
+    result = choice(elements, 1, p = probabilities)  # Set (result) to return of (choice()) that is passed the list of (elements), grab 1 element, use (probabilities) as percent
     return result  # Return the (result)
 
 
@@ -196,10 +199,10 @@ def parseTextTotal(textFile):  # (parseTextTotal) Method that parses all of the 
     unorderedWordList = parseIntoUnorderedWordList(unorderedWordDoubleDict)  # Set (unorderedWordList) to the value returned by passing (unorderedWordDoubleDict) to (parseIntoUnorderedWordList) Method
     global containedUnorderedWordList  # Global keyword to alter global variable
     containedUnorderedWordList = parseIntoContainedUnorderedWordList(unorderedWordList)  # Set (containedUnorderedWordList) to the value returned by passing (unorderedWordList) to (parseIntoContainedUnorderedWordList) Method
-    #global containedWordInSentencesCountList  # Global keyword to alter global variable
-    #containedWordInSentencesCountList = parseWordInSentenceCount(lowercaseWordList, lowercaseSentenceList)  # Set (containedWordInSentencesCountList) to the list returned by passing (parseWordInSentenceCount) the values of (lowercaseWordList) and (lowercaseSentenceList)
+    # global containedWordInSentencesCountList  # Global keyword to alter global variable
+    # containedWordInSentencesCountList = parseWordInSentenceCount(lowercaseWordList, lowercaseSentenceList)  # Set (containedWordInSentencesCountList) to the list returned by passing (parseWordInSentenceCount) the values of (lowercaseWordList) and (lowercaseSentenceList)
     global unorderedTupleList  # Global keyword to alter global variable
-    unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList),3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
+    unorderedTupleList = [containedUnorderedWordList[i:i + 3] for i in range(0, len(containedUnorderedWordList), 3)]  # Break up the list (containedUnorderedWordList) into tuples of length 3
     return firstWordList, unorderedTupleList  # Return both the (firstWordList) and (unorderedTupleList)
 
 
@@ -210,14 +213,13 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
     # Sentence Loop
     while len(sentence) < minLengthOfSentence or len(sentence) > maxLengthOfSentence:  # While the length of the sentence (len(sentence)) is less than the minimum and greater than the maximum do below, so it only creates sentences of length between the min and max
         firstWordOfSentence = getFirstWord(firstWords)
-        nextWord = ''  # Initialize (nextWord) to an empty string
         sentence = ''  # Set (sentence) to an empty string
         sentence += firstWordOfSentence  # Add the (firstWordOfSentence) to the (sentence)
         sentence += ' '  # Add a space character to (sentence)
         nextWord = firstWordOfSentence.lower()  # Set (nextWord) to the lowercase of (firstWordOfSentence)
         # Next Word Loop
         while nextWord != '.' and nextWord != '!' and nextWord != '?':  # Keep going through nextWord until you hit the end of a sentence marked by hitting punctuation
-            nextWord = getNextWord(nextWord, database)  # Set (nextWord) to the string of (getNextWord) by passing it (nextWord) and (database)
+            nextWord = getNextWord(nextWord,database)  # Set (nextWord) to the string of (getNextWord) by passing it (nextWord) and (database)
             sentence += nextWord  # Add the (nextWord) to the (sentence)
             sentence += ' '  # Add a space character after the (nextWord) into (sentence)
     punctuationToFixList = [[' ,', ' :', ' ;', ' )', ' (', ' "', ' .', ' !', ' ?'],
@@ -230,14 +232,17 @@ def createSentence(firstWords, database):  # (createSentence) Method that takes 
 
 parseTextTotal('text.txt')  # Run the (parseTextTotal) Method and pass it ('text.txt')
 
+
 k = 0  # Initialize (k) to 0
 while k < 10:  # Loop through (k) 10 times
     createSentence(firstWordList, unorderedTupleList)  # Run the (createSentence) Method and pass it (firstWordList, unorderedTupleList)
     print(' ')  # Print an empty line
     k += 1  # Add 1 to (k)
 
+
 # Pull more text from http://marx.eserver.org/
 # 1. Go through word list, check sentence list for word, create list of sentences that include word, count them, exclude punctuation use oftenness of word in word choice probablility algorithm.
 # 2. Go through word list, check sentence list for word, create a list of all of the other words in the sentence, count each word to get rate of how often the two words appear in a sentence together not just next to eachother.
+
 
 sys.exit()  # Exit the program (should be removed handled with error catcher etc.)
